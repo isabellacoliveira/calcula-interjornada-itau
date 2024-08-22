@@ -110,11 +110,11 @@ function App() {
           reverseOrder={false}
         />
       </header>
-      <footer className="App-footer">
+      {/* <footer className="App-footer">
         <p aria-label="Desenvolvido por: Isabella C Oliveira - 2024">
           Desenvolvido por: Isabella C Oliveira - 2024
         </p>
-      </footer>
+      </footer> */}
     </div>
   );
 }

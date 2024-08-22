@@ -40,7 +40,7 @@ const Modal: React.FC<ModalProps> = ({ show, onClose, onEmailSubmit, ariaLabelle
       <div
         className="modal-content"
         ref={modalRef}
-        tabIndex={-1} // Ensure it can receive focus
+        tabIndex={-1} 
       >
         <h2 id={ariaLabelledBy} className="modal-title">Envio de E-mail</h2>
         <input
