@@ -1,16 +1,18 @@
 import logo from './assets/Itaú_Unibanco_logo_2023.svg.png';
 import './App.css';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { enviarEmail } from './shared/sendEmail';
 import Modal from './components/ModalEmail';
-import { Toaster } from 'react-hot-toast';
+import { Toaster, toast } from 'react-hot-toast';
 
 function App() {
-  const [saida, setSaida] = useState(() => {
-    return localStorage.getItem('saida') || '';
-  });
+  const [saida, setSaida] = useState(() => localStorage.getItem('saida') || '');
   const [proximoHorario, setProximoHorario] = useState('');
   const [mensagem, setMensagem] = useState('Você já pode começar a trabalhar agora.');
+  const [showModal, setShowModal] = useState(false);
+  const [modalFocus, setModalFocus] = useState<boolean>(false);
+
+  const inputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
     if (saida) {
@@ -37,23 +39,25 @@ function App() {
 
         if (tempoRestante > 0) {
           setTimeout(() => {
-            console.log('Você pode começar a trabalhar agora.');
+            toast.success('Você pode começar a trabalhar agora.');
           }, tempoRestante);
         } else {
-          console.log("Você já pode começar a trabalhar.");
+          toast.success("Você já pode começar a trabalhar.");
         }
       }
     }
   }, [saida]);
 
-  const [showModal, setShowModal] = useState(false);
-
   const handleOpenModal = () => {
     setShowModal(true);
+    setModalFocus(true);
   };
 
   const handleCloseModal = () => {
     setShowModal(false);
+    if (inputRef.current) {
+      inputRef.current.focus();
+    }
   };
 
   const handleEmailSubmit = (email: string, nome: string) => {
@@ -63,15 +67,15 @@ function App() {
       horaParaTrabalhar: proximoHorario,
       mensagem: mensagem
     };
-    console.log(colaborador)
     enviarEmail(colaborador);
     setShowModal(false);
+    toast.success('Email enviado com sucesso!');
   };
 
   return (
     <div className="App">
       <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
+        <img src={logo} className="App-logo" alt="Logo do Itaú Unibanco" />
         <h4>Bem-vindo(a) ao Calcula-Interjornada!</h4>
         <p>Por favor, insira seu horário de saída:</p>
         <div className='actions'>
@@ -80,8 +84,14 @@ function App() {
             type="time"
             value={saida}
             onChange={(e) => setSaida(e.target.value)}
+            aria-label="Horário de saída"
+            ref={inputRef}
           />
-          <button className="button-send" onClick={handleOpenModal}>
+          <button
+            className="button-send"
+            onClick={handleOpenModal}
+            aria-label="Enviar horário para o e-mail"
+          >
             enviar para o e-mail
           </button>
         </div>
@@ -93,6 +103,7 @@ function App() {
           show={showModal}
           onClose={handleCloseModal}
           onEmailSubmit={handleEmailSubmit}
+          aria-labelledby="modal-title"
         />
         <Toaster
           position="top-center"
@@ -100,7 +111,9 @@ function App() {
         />
       </header>
       <footer className="App-footer">
-        Desenvolvido por: Isabella C Oliveira - 2024
+        <p aria-label="Desenvolvido por: Isabella C Oliveira - 2024">
+          Desenvolvido por: Isabella C Oliveira - 2024
+        </p>
       </footer>
     </div>
   );
