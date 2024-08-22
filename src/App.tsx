@@ -8,7 +8,7 @@ import { Toaster, toast } from 'react-hot-toast';
 function App() {
   const [saida, setSaida] = useState(() => localStorage.getItem('saida') || '');
   const [proximoHorario, setProximoHorario] = useState('');
-  const [mensagem, setMensagem] = useState('Você já pode começar a trabalhar agora.');
+  const [mensagem, setMensagem] = useState('');
   const [showModal, setShowModal] = useState(false);
   const [modalFocus, setModalFocus] = useState<boolean>(false);
 
@@ -39,10 +39,10 @@ function App() {
 
         if (tempoRestante > 0) {
           setTimeout(() => {
-            toast.success('Você pode começar a trabalhar agora.');
+            console.log('Você pode começar a trabalhar agora.');
           }, tempoRestante);
         } else {
-          toast.success("Você já pode começar a trabalhar.");
+          console.log("Você já pode começar a trabalhar.");
         }
       }
     }
