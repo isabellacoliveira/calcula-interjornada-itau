@@ -31,6 +31,8 @@ function App() {
         if (horarioRetorno.getHours() < 7) {
           setMensagem('Você já pode começar a trabalhar agora. \n Obs: você só pode começar a trabalhar após as 7h.');
           horarioRetorno.setHours(7, 0, 0, 0);
+        } else {
+          setMensagem('Você já pode começar a trabalhar agora.')
         }
 
         setProximoHorario(horarioRetorno.toLocaleTimeString());
