@@ -1,11 +1,11 @@
 import { useEffect, useRef, useState } from "react";
 import { enviarEmail } from "../../shared/sendEmail";
 import toast, { Toaster } from "react-hot-toast";
-import Modal from "../../components/ModalEmail";
-import logo from '../../assets/Itaú_Unibanco_logo_2023.svg.png';
+import Modal from "../../components/modal/ModalEmail";
 import Footer from "../../components/footer";
-import { Actions, ButtonBack, ButtonSend, Container, Content, ContentButton, Header, Logo, Time } from "./styles";
+import { Actions, ButtonBack, ButtonSend, Container, Content, ContentButton, Header, Time } from "./styles";
 import { useNavigate } from "react-router-dom";
+import Imagem from "../../components/imagem";
 
 export default function Interjornada() {
     const [saida, setSaida] = useState(() => localStorage.getItem('saida') || '');
@@ -90,7 +90,7 @@ export default function Interjornada() {
 
             <Header>
                 <Content>
-                    <Logo src={logo} alt="Logo do Itaú Unibanco" />
+                    <Imagem />
                     {canWork ? <>
                         <h4>Bem-vindo(a) ao Calcula-Interjornada!</h4>
                         <p>Por favor, insira seu horário de saída:</p>
@@ -106,7 +106,7 @@ export default function Interjornada() {
                             <ButtonSend
                                 className="button-send"
                                 onClick={handleOpenModal}
-                                aria-label="Enviar horário para o e-mail"
+                                aria-label="enviar para o e-mail"
                             >
                                 enviar para o e-mail
                             </ButtonSend>

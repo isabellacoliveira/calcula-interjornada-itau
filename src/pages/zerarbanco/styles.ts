@@ -23,6 +23,24 @@ export const Header = styled.div`
     padding-bottom: 30px
 `
 
+export const Logo = styled.img`
+  @keyframes pulse {
+    0% {
+      transform: scale(1);
+    }
+    50% {
+      transform: scale(1.1); 
+    }
+    100% {
+      transform: scale(1);
+    }
+  }
+
+  animation: pulse 2s infinite; 
+  height: 30vmin;
+  pointer-events: none;
+  margin-top: 30px;
+`
 export const Time = styled.input`
    margin-bottom: 15px;
     padding: 20px 10px 20px 20px;

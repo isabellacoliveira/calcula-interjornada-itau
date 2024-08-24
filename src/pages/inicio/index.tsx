@@ -1,12 +1,16 @@
 import { useNavigate } from "react-router-dom";
+import { ButtonSend, Content } from "./styles";
+import Imagem from "../../components/imagem";
 
 export default function Interjornada() {
     const navigate = useNavigate();
 
     return(
-        <div>
-            <button onClick={() => navigate('/interjornada')}>Calcular Interjornada</button>
-            <button onClick={() => navigate('/zerar-banco')}>Zerar Banco de Horas</button>
-        </div>
+        <Content>
+            <Imagem />
+            
+            <ButtonSend onClick={() => navigate('/interjornada')}>calcular interjornada</ButtonSend>
+            <ButtonSend onClick={() => navigate('/zerar-banco')}>zerar banco de horas</ButtonSend>
+        </Content>
     )
 }
