@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { enviarEmail } from "../../shared/sendEmail";
 import toast, { Toaster } from "react-hot-toast";
-import Modal from "../../components/modal/ModalEmail";
+import Modal from "../../components/send-email";
 import Footer from "../../components/footer";
 import { Actions, ButtonBack, ButtonSend, Container, Content, ContentButton, Header, Time } from "./styles";
 import { useNavigate } from "react-router-dom";
@@ -87,7 +87,6 @@ export default function Interjornada() {
                     voltar
                 </ButtonBack>
             </ContentButton>
-
             <Header>
                 <Content>
                     <Imagem />

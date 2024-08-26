@@ -6,11 +6,17 @@ export const Container = styled.div`
     display: flex;
     flex-direction: column;
     min-height: 100vh; 
-`
+    `
 
+export const Titulo = styled.h4`
+    color: #fff;
+    `
+    
 export const Content = styled.header`
     overflow-y: auto;
+    background-color: #132e63; 
 `
+
 export const Header = styled.div`
     flex: 1;
     background-color: #132e63;
@@ -20,6 +26,7 @@ export const Header = styled.div`
     justify-content: center;
     font-size: calc(10px + 2vmin);
     color: white;
+    height: 100%;
     padding-bottom: 30px
 `
 
@@ -42,6 +49,34 @@ export const Logo = styled.img`
   margin-top: 30px;
 `
 export const Time = styled.input`
+   margin-bottom: 15px;
+    padding: 20px 10px 20px 20px;
+    border-radius: 10px;
+    transition: transform 0.6s ease;
+    background-color: #EC7000;
+    max-width: 100%; 
+    outline: none; 
+    cursor: pointer;
+    border: none;
+    color: #fff;
+    margin: 20px 20px 20px 20px;
+    
+    @media (max-width: 600px) {
+      max-width: 100%;  
+   }
+`
+
+export const ContentInput = styled.div`
+  display: flex!important; 
+  flex-direction: column; 
+`
+
+export const LabelInput = styled.div`
+  color: #fff; 
+  font-weight: bold; 
+`
+
+export const Calcular = styled.button`
    margin-bottom: 15px;
     padding: 20px 10px 20px 20px;
     border-radius: 10px;

@@ -18,4 +18,5 @@ export const Logo = styled.img`
   pointer-events: none;
   margin-top: 30px;
   margin-bottom: 20px;
+  position: relative; 
 `
