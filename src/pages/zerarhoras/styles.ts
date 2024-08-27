@@ -77,20 +77,21 @@ export const LabelInput = styled.div`
 `
 
 export const Calcular = styled.button`
-   margin-bottom: 15px;
+    margin-bottom: 15px;
     padding: 20px 10px 20px 20px;
     border-radius: 10px;
     transition: transform 0.6s ease;
     background-color: #EC7000;
-    max-width: 100%; 
     outline: none; 
     cursor: pointer;
     border: none;
     color: #fff;
-
+    width: 190px;
     
     @media (max-width: 600px) {
-      max-width: 100%;  
+     width: 190px;
+     text-align: center; 
+
    }
 `
 export const ButtonSend = styled.div`

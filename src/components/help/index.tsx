@@ -40,6 +40,9 @@ export default function Help({ onModalChange }: HelpProps) {
           <p>
             O aplicativo ajusta seu horário de trabalho para garantir que você utilize todas as horas do banco até o final do mês, ajudando a planejar seu dia e maximizar sua produtividade. Ideal para quem deseja um controle preciso e otimizado das suas horas de trabalho.
           </p>
+          <p>
+            Considerando que estamos no último dia para zerar seu banco de horas, insira seu horário de entrada e o aplicativo lhe mostrará que horas deve sair no dia de hoje para zerar o banco. 
+          </p>
         </HelpContent>
       </Modal>
     </>

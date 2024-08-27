@@ -79,7 +79,7 @@ export default function ZerarHoras() {
                 onChange={(e) => setEntryTime(e.target.value)}
               />
             </ContentInput>
-            <Calcular onClick={handleCalculate}>Calcular</Calcular>
+            <Calcular onClick={handleCalculate}>calcular</Calcular>
             {result && (
               <div>
                 <p>Hora de saída: {result.exitTime}</p>
