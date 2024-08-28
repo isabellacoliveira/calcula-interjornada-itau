@@ -69,11 +69,19 @@ export const Time = styled.input`
 export const ContentInput = styled.div`
   display: flex!important; 
   flex-direction: column; 
+  align-items: center; 
+
 `
 
 export const LabelInput = styled.div`
   color: #fff; 
   font-weight: bold; 
+`
+
+export const Hours = styled.div`
+  display: flex; 
+  flex-direction: row; 
+  width: 100%;
 `
 
 export const Calcular = styled.button`

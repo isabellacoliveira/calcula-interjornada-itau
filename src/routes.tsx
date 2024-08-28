@@ -3,6 +3,7 @@ import Interjornada from "./pages/interjornada";
 import Inicio from "./pages/inicio";
 
 import ZerarHoras from "./pages/zerarhoras";
+import HourInput from "./pages/zerarhoras";
 
 function AppRoutes() {
     return (
@@ -11,7 +12,7 @@ function AppRoutes() {
                 <Routes>
                     <Route path="/" element={<Inicio />} />
                     <Route path="/interjornada" element={<Interjornada />} />
-                    <Route path="/zerar-banco" element={<ZerarHoras />} />
+                    <Route path="/zerar-banco" element={<HourInput />} />
                     <Route path="/*" element={<Inicio />} />
                 </Routes>
             </Router>
