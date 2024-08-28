@@ -12,7 +12,7 @@ export default function Interjornada() {
     const [proximoHorario, setProximoHorario] = useState('');
     const [mensagem, setMensagem] = useState('');
     const [showModal, setShowModal] = useState(false);
-    const [canWork, setCanWork] = useState<boolean>();
+    const [canWork, setCanWork] = useState<boolean>(true); 
     const [modalFocus, setModalFocus] = useState<boolean>(false);
     const navigate = useNavigate();
     const inputRef = useRef<HTMLInputElement>(null);
@@ -28,16 +28,16 @@ export default function Interjornada() {
             const horarioRetorno = new Date(horarioSaida.getTime() + 11 * 60 * 60 * 1000);
             const diaSemana = horarioRetorno.getDay();
     
-            console.log('Dia da semana calculado:', diaSemana);  // Adicione isso para depuração
+            console.log('Dia da semana calculado:', diaSemana);
     
-            if (diaSemana === 6 || diaSemana === 0) {  // Sábado = 6, Domingo = 0
+            if (diaSemana === 6 || diaSemana === 0) {  
                 setMensagem('Você não pode logar no final de semana');
                 setCanWork(false);
             } else {
                 if (horarioRetorno.getHours() < 7) {
-                    setMensagem('Você já pode começar a trabalhar agora. \n Obs: você só pode começar a trabalhar após as 7h.');
+                    setMensagem('Você só pode começar a trabalhar após as 7h.');
                     horarioRetorno.setHours(7, 0, 0, 0);
-                    setCanWork(true);
+                    setCanWork(false); 
                 } else {
                     setMensagem('Você já pode começar a trabalhar agora.');
                     setCanWork(true);
@@ -50,6 +50,7 @@ export default function Interjornada() {
                 if (tempoRestante > 0) {
                     setTimeout(() => {
                         console.log('Você pode começar a trabalhar agora.');
+                        setCanWork(true); 
                     }, tempoRestante);
                 } else {
                     console.log("Você já pode começar a trabalhar.");
@@ -116,7 +117,6 @@ export default function Interjornada() {
                         {proximoHorario && (
                             <p>Você poderá trabalhar novamente às {proximoHorario}</p>
                         )}
-
                     </> : <p>Você não pode trabalhar no final de semana! Priorize seu tempo de descanso.</p>}
                 </Content>
 
