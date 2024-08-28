@@ -20,15 +20,17 @@ export default function Interjornada() {
     useEffect(() => {
         if (saida) {
             localStorage.setItem('saida', saida);
-
+    
             const [hora, minuto] = saida.split(':').map(Number);
             const horarioSaida = new Date();
             horarioSaida.setHours(hora, minuto, 0, 0);
-
+    
             const horarioRetorno = new Date(horarioSaida.getTime() + 11 * 60 * 60 * 1000);
             const diaSemana = horarioRetorno.getDay();
-
-            if (diaSemana === 6 || diaSemana === 0) {
+    
+            console.log('Dia da semana calculado:', diaSemana);  // Adicione isso para depuração
+    
+            if (diaSemana === 6 || diaSemana === 0) {  // Sábado = 6, Domingo = 0
                 setMensagem('Você não pode logar no final de semana');
                 setCanWork(false);
             } else {
@@ -38,13 +40,13 @@ export default function Interjornada() {
                     setCanWork(true);
                 } else {
                     setMensagem('Você já pode começar a trabalhar agora.');
-                    setCanWork(true)
+                    setCanWork(true);
                 }
-
+    
                 setProximoHorario(horarioRetorno.toLocaleTimeString());
-
+    
                 const tempoRestante = horarioRetorno.getTime() - new Date().getTime();
-
+    
                 if (tempoRestante > 0) {
                     setTimeout(() => {
                         console.log('Você pode começar a trabalhar agora.');
@@ -55,6 +57,7 @@ export default function Interjornada() {
             }
         }
     }, [saida]);
+    
 
     const handleOpenModal = () => {
         setShowModal(true);
