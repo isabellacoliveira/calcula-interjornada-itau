@@ -12,7 +12,7 @@ export default function Interjornada() {
     const [proximoHorario, setProximoHorario] = useState('');
     const [mensagem, setMensagem] = useState('');
     const [showModal, setShowModal] = useState(false);
-    const [canWork, setCanWork] = useState(false);
+    const [canWork, setCanWork] = useState<boolean>();
     const [modalFocus, setModalFocus] = useState<boolean>(false);
     const navigate = useNavigate();
     const inputRef = useRef<HTMLInputElement>(null);
