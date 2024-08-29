@@ -1,33 +1,53 @@
 import { useState } from 'react';
-import InputMask from 'react-input-mask';
-import { ButtonBack, Calcular, Container, Content, ContentButton, ContentInput, Header, LabelInput, Time, Titulo } from './styles';
-import Imagem from '../../components/imagem';
 import { useNavigate } from 'react-router-dom';
+import InputMask from 'react-input-mask';
+import {
+  BotaoLimpar,
+  ButtonBack,
+  Calcular,
+  Container,
+  Content,
+  ContentButton,
+  ContentInput,
+  Header,
+  HelpButton,
+  HourBank,
+  LabelInput,
+  Time,
+  Titulo
+} from './styles';
+import Imagem from '../../components/imagem';
 import Warning from '../../components/warning';
+import Help from '../../components/help';
 
 type WorkHoursCalculationResult = {
   exitTime: string;
   workHoursToday: string;
 };
 
-const calculateExitTime = (bankHours: number, bankMinutes: number, entryTime: string): WorkHoursCalculationResult | null => {
+const calculateExitTime = (
+  bankHours: number,
+  bankMinutes: number,
+  entryTime: string,
+  lunchHours: number,
+  lunchMinutes: number
+): WorkHoursCalculationResult | null => {
   const [entryHours, entryMinutes] = entryTime.split(':').map(Number);
   const maxWorkHoursPerDay = 10;
   const mandatoryWorkHours = 8;
-  const lunchBreak = 1;
 
   const bankHoursInHours = bankHours + (bankMinutes / 60);
+  const lunchHoursInHours = lunchHours + (lunchMinutes / 60);
 
   if (bankHoursInHours > maxWorkHoursPerDay) {
-    return null; 
+    return null;
   }
 
-  const totalWorkTimeRequired = mandatoryWorkHours + lunchBreak + bankHoursInHours;
-  
-  const workHoursToday = maxWorkHoursPerDay - lunchBreak - bankHoursInHours;
-  
-  let exitHours = entryHours + lunchBreak + Math.floor(workHoursToday);
-  let exitMinutes = entryMinutes + Math.round((workHoursToday % 1) * 60);
+  const remainingWorkHours = mandatoryWorkHours - bankHoursInHours;
+  const totalWorkTime = remainingWorkHours + lunchHoursInHours;
+
+  let exitHours = entryHours + Math.floor(totalWorkTime);
+  let exitMinutes = entryMinutes + Math.round((totalWorkTime % 1) * 60);
 
   if (exitMinutes >= 60) {
     exitHours += Math.floor(exitMinutes / 60);
@@ -35,27 +55,34 @@ const calculateExitTime = (bankHours: number, bankMinutes: number, entryTime: st
   }
 
   const formattedExitTime = `${exitHours.toString().padStart(2, '0')}:${exitMinutes.toString().padStart(2, '0')}`;
+  const workHoursTodayFormatted = `${Math.floor(remainingWorkHours).toString().padStart(2, '0')}:${Math.round((remainingWorkHours % 1) * 60).toString().padStart(2, '0')}`;
 
   return {
     exitTime: formattedExitTime,
-    workHoursToday: `${Math.floor(workHoursToday).toString().padStart(2, '0')}:${Math.round((workHoursToday % 1) * 60).toString().padStart(2, '0')}`,
+    workHoursToday: workHoursTodayFormatted,
   };
 };
 
 export default function ZerarHoras() {
   const [bankHours, setBankHours] = useState<string>('00');
   const [bankMinutes, setBankMinutes] = useState<string>('00');
+  const [lunchHours, setLunchHours] = useState<string>('01'); // Ajustado para o mínimo de 1h
+  const [lunchMinutes, setLunchMinutes] = useState<string>('00');
   const [entryTime, setEntryTime] = useState<string>('09:00');
   const [result, setResult] = useState<WorkHoursCalculationResult | null>(null);
   const [message, setMessage] = useState<string | null>(null);
   const [isWarningModalOpen, setIsWarningModalOpen] = useState(false);
+  const [isHelpModalOpen, setIsHelpModalOpen] = useState(false);
+  const [passoDoFormulario, setPassoDoFormulario] = useState(1);
   const navigate = useNavigate();
 
   const handleCalculate = () => {
-    const hours = parseInt(bankHours, 10) || 0;
-    const minutes = parseInt(bankMinutes, 10) || 0;
+    const hoursB = parseInt(bankHours, 10) || 0;
+    const minutesB = parseInt(bankMinutes, 10) || 0;
+    const hoursL = parseInt(lunchHours, 10) || 0;
+    const minutesL = parseInt(lunchMinutes, 10) || 0;
 
-    if (minutes < 0 || minutes > 59) {
+    if (minutesB < 0 || minutesB > 59 || minutesL < 0 || minutesL > 59) {
       alert('Minutos inválidos. Insira um valor entre 0 e 59.');
       setResult(null);
       setMessage(null);
@@ -63,103 +90,148 @@ export default function ZerarHoras() {
     }
 
     try {
-      const result = calculateExitTime(hours, minutes, entryTime);
-      if (result === null) {
-        setIsWarningModalOpen(true); 
+      const calculationResult = calculateExitTime(hoursB, minutesB, entryTime, hoursL, minutesL);
+      if (calculationResult === null) {
+        setIsWarningModalOpen(true);
         setResult(null);
       } else {
-        setResult(result);
+        setResult(calculationResult);
         setMessage(null);
       }
-      console.log(`Deu certo, ${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}`);
     } catch (error: any) {
       alert(error.message);
     }
   };
 
-  const handleHoursChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = e.target.value.replace(/\D/g, ''); 
+  function openModal(){
+    setIsHelpModalOpen(true);
+  }
+
+  const handleHoursChange = (setter: React.Dispatch<React.SetStateAction<string>>) => (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value.replace(/\D/g, '');
     if (value.length <= 2) {
-      setBankHours(value);
+      setter(value);
     }
   };
 
-  const handleMinutesChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = e.target.value.replace(/\D/g, ''); 
+  const handleMinutesChange = (setter: React.Dispatch<React.SetStateAction<string>>) => (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value.replace(/\D/g, '');
     const minutes = parseInt(value, 10);
     if (value.length <= 2 && (isNaN(minutes) || (minutes >= 0 && minutes <= 59))) {
-      setBankMinutes(value);
+      setter(value);
     }
   };
 
-  const toggleVisibility = (isOpen: boolean) => {
-    setIsWarningModalOpen(isOpen);
-  };
+  function proximosItens() {
+    setPassoDoFormulario(2);
+  }
+
+  function proximosItens2() {
+    setPassoDoFormulario(3);
+  }
+
+  function limparForm(){
+    setBankHours("")
+    setBankMinutes("")
+    setLunchHours("")
+    setLunchMinutes("")
+    setEntryTime("")
+    setResult(null)
+    setMessage("")
+    setPassoDoFormulario(1);
+  }
+
+  const areBankFieldsFilled = bankHours.trim() !== '' && bankMinutes.trim() !== '';
+  const areLunchFieldsFilled = lunchHours.trim() !== '' && lunchMinutes.trim() !== '';
+  const isEntryTimeFilled = entryTime.trim() !== '';
 
   return (
     <>
       <Container>
         <ContentButton>
-          <ButtonBack onClick={() => navigate('/')}>
-            voltar
-          </ButtonBack>
+          <ButtonBack onClick={() => navigate('/')}>voltar</ButtonBack>
         </ContentButton>
-        {/* <Help isOpen={isWarningModalOpen} onClose={() => setIsWarningModalOpen(false)} /> */}
-        <Warning isOpen={isWarningModalOpen} onClose={() => setIsWarningModalOpen(false)} />
+        <Warning
+          isOpen={isWarningModalOpen}
+          onClose={() => setIsWarningModalOpen(false)}
+        />
+        <HelpButton className="help-button" onClick={openModal}>
+          ?
+        </HelpButton>
+         <Help
+          isOpen={isHelpModalOpen}
+          onClose={() => setIsHelpModalOpen(false)}
+        />
         <Header>
           <Content>
-            {!isWarningModalOpen && <Imagem />}
-            <Titulo>Gestão de Horas</Titulo>
-            <ContentInput>
-              <LabelInput>Horas extras (horas):</LabelInput>
-              <Time
-                type="text"
-                value={bankHours}
-                onChange={handleHoursChange}
-                placeholder="HH"
-                maxLength={2}
-                />
-            </ContentInput>
-            <ContentInput>
-              <LabelInput>Horas extras (minutos):</LabelInput>
-              <Time
-                type="text"
-                value={bankMinutes}
-                onChange={handleMinutesChange}
-                placeholder="MM"
-                maxLength={2}
-                />
-            </ContentInput>
-            {/* <Titulo>Tempo de Almoço</Titulo>
-            <ContentInput>
-              <LabelInput>Horas</LabelInput>
-              <Time
-                type="text"
-                value={bankHours}
-                onChange={handleHoursChange}
-                placeholder="HH"
-                maxLength={2}
-              />
-            </ContentInput>
-            <ContentInput>
-              <LabelInput>minutos:</LabelInput>
-              <Time
-                type="text"
-                value={bankMinutes}
-                onChange={handleMinutesChange}
-                placeholder="MM"
-                maxLength={2}
-              />
-            </ContentInput> */}
-            <ContentInput>
-              <LabelInput>Horário de entrada:</LabelInput>
-              <Time
-                type="time"
-                value={entryTime}
-                onChange={(e) => setEntryTime(e.target.value)}
-              />
-            </ContentInput>
-            <Calcular onClick={handleCalculate}>calcular</Calcular>
+            {!isWarningModalOpen && !isHelpModalOpen && <Imagem />}
+            {passoDoFormulario === 1 ? <>
+              <Titulo>Gestão de Horas</Titulo>
+              <HourBank>
+                <ContentInput>
+                  <LabelInput>Horas extras (horas):</LabelInput>
+                  <Time
+                    type="text"
+                    value={bankHours}
+                    onChange={handleHoursChange(setBankHours)}
+                    placeholder="HH"
+                    maxLength={2}
+                  />
+                </ContentInput>
+                <ContentInput>
+                  <LabelInput>Horas extras (minutos):</LabelInput>
+                  <Time
+                    type="text"
+                    value={bankMinutes}
+                    onChange={handleMinutesChange(setBankMinutes)}
+                    placeholder="MM"
+                    maxLength={2}
+                  />
+                </ContentInput>
+                <Calcular onClick={() => proximosItens()} disabled={!areBankFieldsFilled}>próximo</Calcular>
+              </HourBank>
+            </> : ""}
+
+            {passoDoFormulario === 2 ? <>
+              <Titulo>Tempo de Almoço</Titulo>
+              <HourBank>
+                <ContentInput>
+                  <LabelInput>Horas</LabelInput>
+                  <Time
+                    type="text"
+                    value={lunchHours}
+                    onChange={handleHoursChange(setLunchHours)}
+                    placeholder="HH"
+                    maxLength={2}
+                  />
+                </ContentInput>
+                <ContentInput>
+                  <LabelInput>Minutos:</LabelInput>
+                  <Time
+                    type="text"
+                    value={lunchMinutes}
+                    onChange={handleMinutesChange(setLunchMinutes)}
+                    placeholder="MM"
+                    maxLength={2}
+                  />
+                </ContentInput>
+                <Calcular onClick={() => proximosItens2()} disabled={!areLunchFieldsFilled}>próximo</Calcular>
+              </HourBank></> : ""}
+
+            {passoDoFormulario === 3 ? <>
+              <Titulo>Por favor, insira seu horário de entrada</Titulo>
+              <HourBank>
+                <ContentInput>
+                  <LabelInput>Horário de entrada:</LabelInput>
+                  <Time
+                    type="time"
+                    value={entryTime}
+                    onChange={(e) => setEntryTime(e.target.value)}
+                  />
+                </ContentInput>
+                <Calcular onClick={handleCalculate} disabled={!isEntryTimeFilled}>calcular</Calcular>
+              </HourBank>
+            </> : ""}
             {message && <div>{message}</div>}
             {result && (
               <div>
@@ -167,6 +239,9 @@ export default function ZerarHoras() {
                 <p>Hora de saída: {result.exitTime}</p>
               </div>
             )}
+            <BotaoLimpar>
+              <Calcular onClick={() => limparForm()}>Limpar formulário</Calcular>
+            </BotaoLimpar>
           </Content>
         </Header>
       </Container>

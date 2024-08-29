@@ -54,7 +54,7 @@ export const Time = styled.input`
     border-radius: 10px;
     transition: transform 0.6s ease;
     background-color: #EC7000;
-    max-width: 100%; 
+    width: 100%; 
     outline: none; 
     cursor: pointer;
     border: none;
@@ -62,7 +62,9 @@ export const Time = styled.input`
     margin: 20px 20px 20px 20px;
     
     @media (max-width: 600px) {
-      max-width: 100%;  
+      width: 90%;  
+      color: #fff;
+      align-items: center; 
    }
 `
 
@@ -74,7 +76,7 @@ export const ContentInput = styled.div`
 `
 
 export const LabelInput = styled.div`
-  color: #fff; 
+  color: #000; 
   font-weight: bold; 
 `
 
@@ -82,6 +84,10 @@ export const Hours = styled.div`
   display: flex; 
   flex-direction: row; 
   width: 100%;
+`
+
+export const BotaoLimpar = styled.div`
+  margin-top: 20px;
 `
 
 export const Calcular = styled.button`
@@ -94,13 +100,17 @@ export const Calcular = styled.button`
     cursor: pointer;
     border: none;
     color: #fff;
-    width: 190px;
+    width: 100%;
     
     @media (max-width: 600px) {
-     width: 190px;
+     width: 100%;
      text-align: center; 
-
    }
+
+  &:disabled {
+    background-color: gray; 
+    cursor: not-allowed; 
+  }
 `
 export const ButtonSend = styled.div`
     margin-bottom: 15px;
@@ -180,7 +190,41 @@ export const Actions = styled.div`
       width: 90%; 
    }
 `
+
+export const HourBank = styled.div`
+  background-color: #fff; 
+  border-radius: 30px; 
+  margin: 0 auto; 
+  display: flex; 
+  flex-direction: column; 
+  align-items: center; 
+  padding: 20px; 
+`;
+
+export const HelpButton = styled.button`
+  position: fixed;
+  bottom: 20px; /* Distância do fundo da tela */
+  right: 20px;  /* Distância da lateral direita da tela */
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+  background-color: #EC7000;
+  border: none;
+  outline: none;
+  color: #fff;
+  font-weight: bold; /* Corrigido de 'font-weigth' para 'font-weight' */
+  cursor: pointer;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
   
+  &:hover {
+    transform: translateY(-10px);
+    background-color: #d95a00; /* Alterar a cor de fundo ao passar o mouse */
+  }
+`;
+
   // input.time::-webkit-calendar-picker-indicator {
   //   filter: invert(1); 
   // }
