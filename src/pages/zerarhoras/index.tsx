@@ -19,6 +19,7 @@ import {
 import Imagem from '../../components/imagem';
 import Warning from '../../components/warning';
 import Help from '../../components/help';
+import Footer from '../../components/footer';
 
 type WorkHoursCalculationResult = {
   exitTime: string;
@@ -245,6 +246,7 @@ export default function ZerarHoras() {
           </Content>
         </Header>
       </Container>
+      <Footer />
     </>
   );
 }
