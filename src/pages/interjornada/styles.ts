@@ -1,5 +1,5 @@
 import styled from 'styled-components'; 
-
+import Fire from "../../assets/b72134112b54864e4948865375ecbb11.gif"
 
 export const Container = styled.div`
     text-align: center;
@@ -7,11 +7,10 @@ export const Container = styled.div`
     flex-direction: column;
     min-height: 100vh; 
 `
-
 export const Content = styled.header`
     overflow-y: auto;
 `
-export const Header = styled.div`
+export const Header = styled.div<{ warRoomMode: boolean }>` 
     flex: 1;
     background-color: #132e63;
     display: flex;
@@ -20,8 +19,17 @@ export const Header = styled.div`
     justify-content: center;
     font-size: calc(10px + 2vmin);
     color: white;
-    padding-bottom: 30px
-`
+    padding-bottom: 30px;
+
+    /* Adiciona a imagem de fundo se warRoomMode for true */
+    ${({ warRoomMode }) => warRoomMode && `
+        background-image: url(${Fire});
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        color: #000;
+    `}
+`;
 
 export const Time = styled.input`
    margin-bottom: 15px;
@@ -118,6 +126,30 @@ export const Actions = styled.div`
       width: 90%; 
    }
 `
+
+export const WarRoomButton = styled.button`
+  position: fixed;
+  bottom: 20px; /* Distância do fundo da tela */
+  right: 20px;  /* Distância da lateral direita da tela */
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+  background-color: #EC7000;
+  border: none;
+  outline: none;
+  color: #fff;
+  font-weight: bold; /* Corrigido de 'font-weigth' para 'font-weight' */
+  cursor: pointer;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  
+  &:hover {
+    transform: translateY(-10px);
+    background-color: #d95a00; /* Alterar a cor de fundo ao passar o mouse */
+  }
+`;
   
   // input.time::-webkit-calendar-picker-indicator {
   //   filter: invert(1); 

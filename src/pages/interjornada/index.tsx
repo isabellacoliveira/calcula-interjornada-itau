@@ -3,17 +3,22 @@ import { enviarEmail } from "../../shared/sendEmail";
 import toast, { Toaster } from "react-hot-toast";
 import Modal from "../../components/send-email";
 import Footer from "../../components/footer";
-import { Actions, ButtonBack, ButtonSend, Container, Content, ContentButton, Header, Time } from "./styles";
+import { Actions, ButtonBack, ButtonSend, Container, Content, ContentButton, Header, Time, WarRoomButton } from "./styles";
 import { useNavigate } from "react-router-dom";
 import Imagem from "../../components/imagem";
+import WarRoom from "../../components/war-room";
 
 export default function Interjornada() {
     const [saida, setSaida] = useState(() => localStorage.getItem('saida') || '');
     const [proximoHorario, setProximoHorario] = useState('');
     const [mensagem, setMensagem] = useState('');
     const [showModal, setShowModal] = useState(false);
-    const [canWork, setCanWork] = useState<boolean>(true); 
+    const [canWork, setCanWork] = useState<boolean>(true);
     const [modalFocus, setModalFocus] = useState<boolean>(false);
+    const [isHelpModalOpen, setIsHelpModalOpen] = useState(false);
+    const [dataFromChild, setDataFromChild] = useState('');
+    const [diaDaSemana, setDiaDaSemana] = useState<number>();
+    const [warRoomMode, setWarRoomMode] = useState(false);
     const navigate = useNavigate();
     const inputRef = useRef<HTMLInputElement>(null);
 
@@ -27,17 +32,19 @@ export default function Interjornada() {
     
             const horarioRetorno = new Date(horarioSaida.getTime() + 11 * 60 * 60 * 1000);
             const diaSemana = horarioRetorno.getDay();
+            setDiaDaSemana(horarioRetorno.getDay());
     
-            console.log('Dia da semana calculado:', diaSemana);
-    
-            if (diaSemana === 6 || diaSemana === 0) {  
+            if (warRoomMode) {
+                setMensagem('Modo War Room ativado. Você pode trabalhar agora.');
+                setCanWork(true);
+            } else if (diaSemana === 6 || diaSemana === 0) {
                 setMensagem('Você não pode logar no final de semana');
                 setCanWork(false);
             } else {
                 if (horarioRetorno.getHours() < 7) {
                     setMensagem('Você só pode começar a trabalhar após as 7h.');
                     horarioRetorno.setHours(7, 0, 0, 0);
-                    setCanWork(false); 
+                    setCanWork(false);
                 } else {
                     setMensagem('Você já pode começar a trabalhar agora.');
                     setCanWork(true);
@@ -50,16 +57,15 @@ export default function Interjornada() {
                 if (tempoRestante > 0) {
                     setTimeout(() => {
                         console.log('Você pode começar a trabalhar agora.');
-                        setCanWork(true); 
+                        setCanWork(true);
                     }, tempoRestante);
                 } else {
                     console.log("Você já pode começar a trabalhar.");
                 }
             }
         }
-    }, [saida]);
+    }, [saida, warRoomMode]); 
     
-
     const handleOpenModal = () => {
         setShowModal(true);
         setModalFocus(true);
@@ -84,6 +90,23 @@ export default function Interjornada() {
         toast.success('Email enviado com sucesso!');
     };
 
+    function openModal() {
+        setIsHelpModalOpen(true);
+    }
+
+    function warRoomOff() {
+        setCanWork(false);
+        setWarRoomMode(false);
+    }
+
+    const warRoomSure = (data: any) => {
+        setDataFromChild(data)
+
+        if (data === true) setCanWork(true);
+        setIsHelpModalOpen(false);
+        setWarRoomMode(true);
+    }
+
     return (
         <Container>
             <ContentButton>
@@ -91,7 +114,7 @@ export default function Interjornada() {
                     voltar
                 </ButtonBack>
             </ContentButton>
-            <Header>
+            <Header warRoomMode={warRoomMode}>
                 <Content>
                     <Imagem />
                     {canWork ? <>
@@ -131,6 +154,17 @@ export default function Interjornada() {
                     reverseOrder={false}
                 />
             </Header>
+            {diaDaSemana === 6 || diaDaSemana === 0 ? <WarRoomButton className="help-button" onClick={openModal}>
+                War Room
+            </WarRoomButton> : ""}
+            {warRoomMode ? <WarRoomButton className="help-button" onClick={warRoomOff}>
+                Fim do WR
+            </WarRoomButton> : ""}
+            <WarRoom
+                isOpen={isHelpModalOpen}
+                onClose={() => setIsHelpModalOpen(false)}
+                setCanWork={warRoomSure}
+            />
             <Footer />
         </Container>
     )
