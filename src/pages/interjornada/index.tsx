@@ -32,37 +32,33 @@ export default function Interjornada() {
             const diaSemana = horarioRetorno.getDay();
             setDiaDaSemana(horarioRetorno.getDay());
     
-            // if (warroommode) {
-            //     setMensagem('Modo War Room ativado. Você pode trabalhar agora.');
-            //     setCanWork(true);
-            // } else 
             if (diaSemana === 6 || diaSemana === 0) {
                 setMensagem('Você não pode logar no final de semana');
                 setCanWork(false);
 
-                if(warroommode){
-                    if (horarioRetorno.getHours() < 7) {
-                        setMensagem('Você só pode começar a trabalhar após as 7h.');
-                        horarioRetorno.setHours(7, 0, 0, 0);
-                        setCanWork(false);
-                    } else {
-                        setMensagem('Você já pode começar a trabalhar agora.');
-                        setCanWork(true);
-                    }
+                // if(warroommode){
+                //     if (horarioRetorno.getHours() < 7) {
+                //         setMensagem('Você só pode começar a trabalhar após as 7h.');
+                //         horarioRetorno.setHours(7, 0, 0, 0);
+                //         setCanWork(false);
+                //     } else {
+                //         setMensagem('Você já pode começar a trabalhar agora.');
+                //         setCanWork(true);
+                //     }
         
-                    setProximoHorario(horarioRetorno.toLocaleTimeString());
+                //     setProximoHorario(horarioRetorno.toLocaleTimeString());
         
-                    const tempoRestante = horarioRetorno.getTime() - new Date().getTime();
+                //     const tempoRestante = horarioRetorno.getTime() - new Date().getTime();
         
-                    if (tempoRestante > 0) {
-                        setTimeout(() => {
-                            console.log('Você pode começar a trabalhar agora.');
-                            setCanWork(true);
-                        }, tempoRestante);
-                    } else {
-                        console.log("Você já pode começar a trabalhar.");
-                    }
-                }
+                //     if (tempoRestante > 0) {
+                //         setTimeout(() => {
+                //             console.log('Você pode começar a trabalhar agora.');
+                //             setCanWork(true);
+                //         }, tempoRestante);
+                //     } else {
+                //         console.log("Você já pode começar a trabalhar.");
+                //     }
+                // }
             } else {
                 if (horarioRetorno.getHours() < 7) {
                     setMensagem('Você só pode começar a trabalhar após as 7h.');
@@ -177,17 +173,17 @@ export default function Interjornada() {
                     reverseOrder={false}
                 />
             </Header>
-            {diaDaSemana === 6 || diaDaSemana === 0 ? <WarRoomButton className="help-button" onClick={openModal}>
+            {/* {diaDaSemana === 6 || diaDaSemana === 0 ? <WarRoomButton className="help-button" onClick={openModal}>
                 War Room
             </WarRoomButton> : ""}
             {warroommode ? <WarRoomButton className="help-button" onClick={warRoomOff}>
                 Fim do WR
-            </WarRoomButton> : ""}
-            <WarRoom
+            </WarRoomButton> : ""} */}
+            {/* <WarRoom
                 isOpen={isHelpModalOpen}
                 onClose={() => setIsHelpModalOpen(false)}
                 setCanWork={warRoomSure}
-            />
+            /> */}
             <Footer />
         </Container>
     )
