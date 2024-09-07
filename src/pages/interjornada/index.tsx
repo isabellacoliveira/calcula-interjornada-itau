@@ -18,14 +18,12 @@ export default function Interjornada() {
     const [isHelpModalOpen, setIsHelpModalOpen] = useState(false);
     const [dataFromChild, setDataFromChild] = useState('');
     const [diaDaSemana, setDiaDaSemana] = useState<number>();
-    const [warRoomMode, setWarRoomMode] = useState(false);
+    const [warroommode, setwarroommode] = useState(false);
     const navigate = useNavigate();
     const inputRef = useRef<HTMLInputElement>(null);
 
     useEffect(() => {
-        if (saida) {
-            localStorage.setItem('saida', saida);
-    
+        if (saida) {    
             const [hora, minuto] = saida.split(':').map(Number);
             const horarioSaida = new Date();
             horarioSaida.setHours(hora, minuto, 0, 0);
@@ -34,12 +32,37 @@ export default function Interjornada() {
             const diaSemana = horarioRetorno.getDay();
             setDiaDaSemana(horarioRetorno.getDay());
     
-            if (warRoomMode) {
-                setMensagem('Modo War Room ativado. Você pode trabalhar agora.');
-                setCanWork(true);
-            } else if (diaSemana === 6 || diaSemana === 0) {
+            // if (warroommode) {
+            //     setMensagem('Modo War Room ativado. Você pode trabalhar agora.');
+            //     setCanWork(true);
+            // } else 
+            if (diaSemana === 6 || diaSemana === 0) {
                 setMensagem('Você não pode logar no final de semana');
                 setCanWork(false);
+
+                if(warroommode){
+                    if (horarioRetorno.getHours() < 7) {
+                        setMensagem('Você só pode começar a trabalhar após as 7h.');
+                        horarioRetorno.setHours(7, 0, 0, 0);
+                        setCanWork(false);
+                    } else {
+                        setMensagem('Você já pode começar a trabalhar agora.');
+                        setCanWork(true);
+                    }
+        
+                    setProximoHorario(horarioRetorno.toLocaleTimeString());
+        
+                    const tempoRestante = horarioRetorno.getTime() - new Date().getTime();
+        
+                    if (tempoRestante > 0) {
+                        setTimeout(() => {
+                            console.log('Você pode começar a trabalhar agora.');
+                            setCanWork(true);
+                        }, tempoRestante);
+                    } else {
+                        console.log("Você já pode começar a trabalhar.");
+                    }
+                }
             } else {
                 if (horarioRetorno.getHours() < 7) {
                     setMensagem('Você só pode começar a trabalhar após as 7h.');
@@ -64,7 +87,7 @@ export default function Interjornada() {
                 }
             }
         }
-    }, [saida, warRoomMode]); 
+    }, [saida, warroommode]); 
     
     const handleOpenModal = () => {
         setShowModal(true);
@@ -96,7 +119,7 @@ export default function Interjornada() {
 
     function warRoomOff() {
         setCanWork(false);
-        setWarRoomMode(false);
+        setwarroommode(false);
     }
 
     const warRoomSure = (data: any) => {
@@ -104,7 +127,7 @@ export default function Interjornada() {
 
         if (data === true) setCanWork(true);
         setIsHelpModalOpen(false);
-        setWarRoomMode(true);
+        setwarroommode(true);
     }
 
     return (
@@ -114,7 +137,7 @@ export default function Interjornada() {
                     voltar
                 </ButtonBack>
             </ContentButton>
-            <Header warRoomMode={warRoomMode}>
+            <Header $warroommode={warroommode}>
                 <Content>
                     <Imagem />
                     {canWork ? <>
@@ -157,7 +180,7 @@ export default function Interjornada() {
             {diaDaSemana === 6 || diaDaSemana === 0 ? <WarRoomButton className="help-button" onClick={openModal}>
                 War Room
             </WarRoomButton> : ""}
-            {warRoomMode ? <WarRoomButton className="help-button" onClick={warRoomOff}>
+            {warroommode ? <WarRoomButton className="help-button" onClick={warRoomOff}>
                 Fim do WR
             </WarRoomButton> : ""}
             <WarRoom
