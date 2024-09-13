@@ -136,7 +136,7 @@ export default function Interjornada() {
             <Header $warroommode={warroommode}>
                 <Content>
                     <Imagem />
-                    {canWork ? <>
+                    {/* {canWork ? <> */}
                         <h4>Bem-vindo(a) ao Calcula-Interjornada!</h4>
                         <p>Por favor, insira seu horário de saída:</p>
                         <Actions>
@@ -159,7 +159,7 @@ export default function Interjornada() {
                         {proximoHorario && (
                             <p>Você poderá trabalhar novamente às {proximoHorario}</p>
                         )}
-                    </> : <p>Você não pode trabalhar no final de semana! Priorize seu tempo de descanso.</p>}
+                    {/* </> : <p>Você não pode trabalhar no final de semana! Priorize seu tempo de descanso.</p>} */}
                 </Content>
 
                 <Modal
