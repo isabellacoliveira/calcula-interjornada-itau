@@ -189,6 +189,7 @@ export default function ZerarHoras() {
         <Help
           isOpen={isHelpModalOpen}
           onClose={() => setIsHelpModalOpen(false)}
+          helpButtonRef={helpButtonRef} 
           aria-label="Modal de ajuda"
         />
 

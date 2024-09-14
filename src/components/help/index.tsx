@@ -1,12 +1,21 @@
-import Modal from '../modal-reuso'; // Certifique-se de ter o tipo correto para as propriedades do Modal
+import { useEffect } from 'react';
+import Modal from '../modal-reuso'; 
 import { HelpContent } from './styles';
 
 type HelpProps = {
   isOpen: boolean;
   onClose: () => void;
+  helpButtonRef: React.RefObject<HTMLButtonElement>; // Passando a referência do botão para o Help
 };
 
-export default function Help({ isOpen, onClose }: HelpProps) {
+export default function Help({ isOpen, onClose, helpButtonRef }: HelpProps) {
+  useEffect(() => {
+    if (!isOpen && helpButtonRef?.current) {
+      // Focar no botão de ajuda ao fechar o modal
+      helpButtonRef.current.focus();
+    }
+  }, [isOpen, helpButtonRef]);
+
   return (
     <Modal isOpen={isOpen} closeModal={onClose}>
       <HelpContent role="dialog">
