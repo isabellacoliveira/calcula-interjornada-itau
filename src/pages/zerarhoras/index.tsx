@@ -185,7 +185,9 @@ export default function ZerarHoras() {
 
         <Header>
           <Content>
-            {!isWarningModalOpen && !isHelpModalOpen && <Imagem aria-label="Logo do Itaú Unibanco" aria-hidden="true" />}
+            {!isWarningModalOpen && !isHelpModalOpen && 
+              <Imagem aria-label="Logo do Itaú Unibanco" aria-hidden="true" />
+            }
 
             {passoDoFormulario === 1 && (
               <>
