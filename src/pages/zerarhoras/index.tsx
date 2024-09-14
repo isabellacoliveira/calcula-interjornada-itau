@@ -314,18 +314,6 @@ export default function ZerarHoras() {
             <BotaoLimpar>
               <Calcular onClick={() => limparForm()} aria-label="Limpar formulário" role="button">Limpar formulário</Calcular>
             </BotaoLimpar>
-
-            <div>
-              <p role="text" aria-level={3} style={{ display: 'inline' }}>
-                Teste de
-              </p>
-              <a href="https://etecperuibe.cps.sp.gov.br/" target="_blank" style={{ display: 'inline' }}>
-                clicar
-              </a>
-              <p role="text" style={{ display: 'inline' }}>
-                olá
-              </p>
-            </div>
           </Content>
         </Header>
       </Container>
