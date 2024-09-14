@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import InputMask from 'react-input-mask';
 import {
@@ -73,8 +73,8 @@ export default function ZerarHoras() {
   const [result, setResult] = useState<WorkHoursCalculationResult | null>(null);
   const [message, setMessage] = useState<string | null>(null);
   const [isWarningModalOpen, setIsWarningModalOpen] = useState(false);
-  const [isHelpModalOpen, setIsHelpModalOpen] = useState(false);
   const [passoDoFormulario, setPassoDoFormulario] = useState(1);
+  const [isHelpModalOpen, setIsHelpModalOpen] = useState(false);
   const helpButtonRef = useRef<HTMLButtonElement>(null);
   const navigate = useNavigate();
 
@@ -107,12 +107,13 @@ export default function ZerarHoras() {
 
   function openModal() {
     setIsHelpModalOpen(true);
-    setTimeout(() => {
-      if (helpButtonRef.current) {
-        helpButtonRef.current.focus();
-      }
-    }, 0);
   }
+
+  useEffect(() => {
+    if (!isHelpModalOpen && helpButtonRef.current) {
+      helpButtonRef.current.focus();
+    }
+  }, [isHelpModalOpen]);
 
   const handleHoursChange = (setter: React.Dispatch<React.SetStateAction<string>>) => (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value.replace(/\D/g, '');
