@@ -175,6 +175,7 @@ export default function ZerarHoras() {
           onClick={openModal}
           aria-label="Abrir ajuda"
           role="button"
+          ref={helpButtonRef}
         >
           ?
         </HelpButton>
