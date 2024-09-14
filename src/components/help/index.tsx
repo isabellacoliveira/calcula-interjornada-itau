@@ -11,12 +11,14 @@ type HelpProps = {
 export default function Help({ isOpen, onClose, helpButtonRef }: HelpProps) {
   useEffect(() => {
     if (!isOpen && helpButtonRef?.current) {
-      // Adicionar um pequeno atraso para garantir o foco correto em iOS
+      document.body.offsetHeight; 
+  
       setTimeout(() => {
         helpButtonRef.current?.focus();
-      }, 50); // Teste com 50ms, pode ajustar conforme necessário
+      }, 50);
     }
   }, [isOpen, helpButtonRef]);
+  
 
   return (
     <Modal isOpen={isOpen} closeModal={onClose}>
