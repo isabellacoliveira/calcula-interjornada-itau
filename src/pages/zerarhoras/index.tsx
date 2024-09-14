@@ -107,9 +107,11 @@ export default function ZerarHoras() {
 
   function openModal() {
     setIsHelpModalOpen(true);
-    if (helpButtonRef.current) {
-      helpButtonRef.current.focus();
-    }
+    setTimeout(() => {
+      if (helpButtonRef.current) {
+        helpButtonRef.current.focus();
+      }
+    }, 0);
   }
 
   const handleHoursChange = (setter: React.Dispatch<React.SetStateAction<string>>) => (e: React.ChangeEvent<HTMLInputElement>) => {
