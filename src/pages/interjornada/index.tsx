@@ -145,13 +145,11 @@ export default function Interjornada() {
                                 type="time"
                                 value={saida}
                                 onChange={(e) => setSaida(e.target.value)}
-                                aria-label="Horário de saída"
                                 ref={inputRef}
                             />
                             <ButtonSend
                                 className="button-send"
                                 onClick={handleOpenModal}
-                                aria-label="enviar para o e-mail"
                             >
                                 enviar para o e-mail
                             </ButtonSend>
@@ -166,7 +164,6 @@ export default function Interjornada() {
                     show={showModal}
                     onClose={handleCloseModal}
                     onEmailSubmit={handleEmailSubmit}
-                    aria-labelledby="modal-title"
                 />
                 <Toaster
                     position="top-center"
