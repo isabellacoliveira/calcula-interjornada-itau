@@ -67,7 +67,7 @@ const calculateExitTime = (
 export default function ZerarHoras() {
   const [bankHours, setBankHours] = useState<string>('00');
   const [bankMinutes, setBankMinutes] = useState<string>('00');
-  const [lunchHours, setLunchHours] = useState<string>('01'); // Ajustado para o mínimo de 1h
+  const [lunchHours, setLunchHours] = useState<string>('01');
   const [lunchMinutes, setLunchMinutes] = useState<string>('00');
   const [entryTime, setEntryTime] = useState<string>('09:00');
   const [result, setResult] = useState<WorkHoursCalculationResult | null>(null);
@@ -104,7 +104,7 @@ export default function ZerarHoras() {
     }
   };
 
-  function openModal(){
+  function openModal() {
     setIsHelpModalOpen(true);
   }
 
@@ -131,7 +131,7 @@ export default function ZerarHoras() {
     setPassoDoFormulario(3);
   }
 
-  function limparForm(){
+  function limparForm() {
     setBankHours("")
     setBankMinutes("")
     setLunchHours("")
@@ -150,102 +150,163 @@ export default function ZerarHoras() {
     <>
       <Container>
         <ContentButton>
-          <ButtonBack onClick={() => navigate('/')}>voltar</ButtonBack>
+          <ButtonBack
+            aria-label="Voltar para a página inicial"
+            onClick={() => navigate('/')}
+            role="button">
+            voltar
+          </ButtonBack>
         </ContentButton>
+
         <Warning
           isOpen={isWarningModalOpen}
           onClose={() => setIsWarningModalOpen(false)}
+          aria-label="Modal de aviso"
         />
-        <HelpButton className="help-button" onClick={openModal}>
+
+        <HelpButton
+          className="help-button"
+          onClick={openModal}
+          aria-label="Abrir ajuda"
+          role="button"
+        >
           ?
         </HelpButton>
-         <Help
+
+        <Help
           isOpen={isHelpModalOpen}
           onClose={() => setIsHelpModalOpen(false)}
+          aria-label="Modal de ajuda"
         />
+
         <Header>
           <Content>
-            {!isWarningModalOpen && !isHelpModalOpen && <Imagem />}
-            {passoDoFormulario === 1 ? <>
-              <Titulo>Gestão de Horas</Titulo>
-              <HourBank>
-                <ContentInput>
-                  <LabelInput>Horas extras (horas):</LabelInput>
-                  <Time
-                    type="text"
-                    value={bankHours}
-                    onChange={handleHoursChange(setBankHours)}
-                    placeholder="HH"
-                    maxLength={2}
-                  />
-                </ContentInput>
-                <ContentInput>
-                  <LabelInput>Horas extras (minutos):</LabelInput>
-                  <Time
-                    type="text"
-                    value={bankMinutes}
-                    onChange={handleMinutesChange(setBankMinutes)}
-                    placeholder="MM"
-                    maxLength={2}
-                  />
-                </ContentInput>
-                <Calcular onClick={() => proximosItens()} disabled={!areBankFieldsFilled}>próximo</Calcular>
-              </HourBank>
-            </> : ""}
+            {!isWarningModalOpen && !isHelpModalOpen && <Imagem aria-label="Logo do Itaú Unibanco" aria-hidden="true" />}
 
-            {passoDoFormulario === 2 ? <>
-              <Titulo>Tempo de Almoço</Titulo>
-              <HourBank>
-                <ContentInput>
-                  <LabelInput>Horas</LabelInput>
-                  <Time
-                    type="text"
-                    value={lunchHours}
-                    onChange={handleHoursChange(setLunchHours)}
-                    placeholder="HH"
-                    maxLength={2}
-                  />
-                </ContentInput>
-                <ContentInput>
-                  <LabelInput>Minutos:</LabelInput>
-                  <Time
-                    type="text"
-                    value={lunchMinutes}
-                    onChange={handleMinutesChange(setLunchMinutes)}
-                    placeholder="MM"
-                    maxLength={2}
-                  />
-                </ContentInput>
-                <Calcular onClick={() => proximosItens2()} disabled={!areLunchFieldsFilled}>próximo</Calcular>
-              </HourBank></> : ""}
+            {passoDoFormulario === 1 && (
+              <>
+                <Titulo aria-level={1}>Gestão de Horas</Titulo>
+                <HourBank role="form" aria-label="Formulário para inserir horas extras">
+                  <ContentInput>
+                    <LabelInput>Horas extras (horas):</LabelInput>
+                    <Time
+                      id="bankHours"
+                      type="text"
+                      value={bankHours}
+                      onChange={handleHoursChange(setBankHours)}
+                      placeholder="HH"
+                      maxLength={2}
+                      aria-label="Campo para inserir horas extras"
+                      role="textbox"
+                    />
+                  </ContentInput>
+                  <ContentInput>
+                    <LabelInput>Horas extras (minutos):</LabelInput>
+                    <Time
+                      id="bankMinutes"
+                      type="text"
+                      value={bankMinutes}
+                      onChange={handleMinutesChange(setBankMinutes)}
+                      placeholder="MM"
+                      maxLength={2}
+                      aria-label="Campo para inserir minutos extras"
+                      role="textbox"
+                    />
+                  </ContentInput>
+                  <Calcular
+                    onClick={() => proximosItens()}
+                    disabled={!areBankFieldsFilled}
+                    aria-label="Próximo passo"
+                    role="button"
+                  >
+                    próximo
+                  </Calcular>
+                </HourBank>
+              </>
+            )}
 
-            {passoDoFormulario === 3 ? <>
-              <Titulo>Por favor, insira seu horário de entrada</Titulo>
-              <HourBank>
-                <ContentInput>
-                  <LabelInput>Horário de entrada:</LabelInput>
-                  <Time
-                    type="time"
-                    value={entryTime}
-                    onChange={(e) => setEntryTime(e.target.value)}
-                  />
-                </ContentInput>
-                <Calcular onClick={handleCalculate} disabled={!isEntryTimeFilled}>calcular</Calcular>
-              </HourBank>
-            </> : ""}
-            {message && <div>{message}</div>}
+            {passoDoFormulario === 2 && (
+              <>
+                <Titulo>Tempo de Almoço</Titulo>
+                <HourBank>
+                  <ContentInput>
+                    <LabelInput>Horas</LabelInput>
+                    <Time
+                      id="lunchHours"
+                      type="text"
+                      value={lunchHours}
+                      onChange={handleHoursChange(setLunchHours)}
+                      placeholder="HH"
+                      maxLength={2}
+                      aria-label="Campo para inserir horas de almoço"
+                      role="textbox"
+                    />
+                  </ContentInput>
+                  <ContentInput>
+                    <LabelInput>Minutos:</LabelInput>
+                    <Time
+                      id="lunchMinutes"
+                      type="text"
+                      value={lunchMinutes}
+                      onChange={handleMinutesChange(setLunchMinutes)}
+                      placeholder="MM"
+                      maxLength={2}
+                      aria-label="Campo para inserir minutos de almoço"
+                      role="textbox"
+                    />
+                  </ContentInput>
+                  <Calcular
+                    onClick={() => proximosItens2()}
+                    disabled={!areLunchFieldsFilled}
+                    aria-label="Próximo passo"
+                    role="button"
+                  >
+                    próximo
+                  </Calcular>
+                </HourBank>
+              </>
+            )}
+
+            {passoDoFormulario === 3 && (
+              <>
+                <Titulo>Por favor, insira seu horário de entrada</Titulo>
+                <HourBank>
+                  <ContentInput>
+                    <LabelInput>Horário de entrada:</LabelInput>
+                    <Time
+                      id="entryTime"
+                      type="time"
+                      value={entryTime}
+                      onChange={(e) => setEntryTime(e.target.value)}
+                      aria-label="Campo para inserir horário de entrada"
+                    />
+                  </ContentInput>
+                  <Calcular
+                    onClick={handleCalculate}
+                    disabled={!isEntryTimeFilled}
+                    aria-label="Calcular horário de saída"
+                  >
+                    calcular
+                  </Calcular>
+                </HourBank>
+              </>
+            )}
+
+            {message && <div aria-live="polite">{message}</div>}
             {result && (
-              <div>
+              <div role="region" aria-label="Resultados do cálculo de horas">
                 <p>Horas de trabalho necessárias hoje: {result.workHoursToday}</p>
                 <p>Hora de saída: {result.exitTime}</p>
               </div>
             )}
+
             <BotaoLimpar>
-              <Calcular onClick={() => limparForm()}>Limpar formulário</Calcular>
+              <Calcular onClick={() => limparForm()} aria-label="Limpar formulário" role="button">Limpar formulário</Calcular>
             </BotaoLimpar>
           </Content>
         </Header>
       </Container>
+
       <Footer />
     </>
   );

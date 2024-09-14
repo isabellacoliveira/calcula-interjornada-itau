@@ -9,7 +9,7 @@ type HelpProps = {
 export default function Help({ isOpen, onClose }: HelpProps) {
   return (
     <Modal isOpen={isOpen} closeModal={onClose}>
-      <HelpContent>
+      <HelpContent role="dialog">
         <h2>Sobre o Aplicativo</h2>
         <div>
           <p>
