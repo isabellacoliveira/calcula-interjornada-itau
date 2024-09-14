@@ -315,9 +315,9 @@ export default function ZerarHoras() {
             </BotaoLimpar>
 
             <div>
-              <p role="text">
+              <p role="text" aria-level={3}>
                 Teste de 
-                <a href="https://etecperuibe.cps.sp.gov.br/" target='blank' role="link">LINK</a>
+                <a href="https://etecperuibe.cps.sp.gov.br/" target='blank' role="link">clicar</a>
                 olá
               </p>
             </div>
