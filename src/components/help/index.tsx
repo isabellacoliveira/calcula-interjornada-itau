@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import Modal from '../modal-reuso'; 
+import Modal from '../modal-reuso';
 import { HelpContent } from './styles';
 
 type HelpProps = {
@@ -11,14 +11,14 @@ type HelpProps = {
 export default function Help({ isOpen, onClose, helpButtonRef }: HelpProps) {
   useEffect(() => {
     if (!isOpen && helpButtonRef?.current) {
-      document.body.offsetHeight; 
-  
+      document.body.offsetHeight;
+
       setTimeout(() => {
         helpButtonRef.current?.focus();
       }, 50);
     }
   }, [isOpen, helpButtonRef]);
-  
+
 
   return (
     <Modal isOpen={isOpen} closeModal={onClose}>
@@ -32,7 +32,7 @@ export default function Help({ isOpen, onClose, helpButtonRef }: HelpProps) {
             O aplicativo ajusta seu horário de trabalho para garantir que você utilize todas as horas do banco até o final do mês, ajudando a planejar seu dia e maximizar sua produtividade. Ideal para quem deseja um controle preciso e otimizado das suas horas de trabalho.
           </p>
           <p>
-            Considerando que estamos no último dia para zerar seu banco de horas, insira seu horário de entrada e o aplicativo lhe mostrará que horas deve sair no dia de hoje para zerar o banco. 
+            Considerando que estamos no último dia para zerar seu banco de horas, insira seu horário de entrada e o aplicativo lhe mostrará que horas deve sair no dia de hoje para zerar o banco.
           </p>
         </div>
       </HelpContent>
