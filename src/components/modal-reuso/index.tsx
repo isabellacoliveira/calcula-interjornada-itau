@@ -7,16 +7,13 @@ const Modal = ({ isOpen, closeModal, children }: any) => {
 
   useEffect(() => {
     if (isOpen) {
-      // Guardar o elemento que estava focado antes de abrir o modal
       previouslyFocusedElement.current = document.activeElement as HTMLElement;
 
-      // Focar o modal ou o primeiro elemento dentro do modal
       if (modalRef.current) {
         modalRef.current.focus();
       }
     } else {
-      // Retornar o foco para o elemento previamente focado ao fechar o modal
-      if (previouslyFocusedElement.current) {
+S      if (previouslyFocusedElement.current) {
         previouslyFocusedElement.current.focus();
       }
     }

@@ -5,14 +5,16 @@ import { HelpContent } from './styles';
 type HelpProps = {
   isOpen: boolean;
   onClose: () => void;
-  helpButtonRef: React.RefObject<HTMLButtonElement>; // Passando a referência do botão para o Help
+  helpButtonRef: React.RefObject<HTMLButtonElement>;
 };
 
 export default function Help({ isOpen, onClose, helpButtonRef }: HelpProps) {
   useEffect(() => {
     if (!isOpen && helpButtonRef?.current) {
-      // Focar no botão de ajuda ao fechar o modal
-      helpButtonRef.current.focus();
+      // Adicionar um pequeno atraso para garantir o foco correto em iOS
+      setTimeout(() => {
+        helpButtonRef.current?.focus();
+      }, 50); // Teste com 50ms, pode ajustar conforme necessário
     }
   }, [isOpen, helpButtonRef]);
 
