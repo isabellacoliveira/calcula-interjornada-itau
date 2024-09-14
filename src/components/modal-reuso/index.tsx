@@ -13,7 +13,7 @@ const Modal = ({ isOpen, closeModal, children }: any) => {
         modalRef.current.focus();
       }
     } else {
-S      if (previouslyFocusedElement.current) {
+      if (previouslyFocusedElement.current) {
         previouslyFocusedElement.current.focus();
       }
     }
@@ -26,7 +26,7 @@ S      if (previouslyFocusedElement.current) {
       <div
         className="modal-content"
         ref={modalRef}
-        tabIndex={-1} 
+        tabIndex={-1}
         role="dialog"
         aria-modal="true"
       >
