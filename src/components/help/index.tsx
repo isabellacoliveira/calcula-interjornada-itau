@@ -11,15 +11,12 @@ type HelpProps = {
 export default function Help({ isOpen, onClose, helpButtonRef }: HelpProps) {
   useEffect(() => {
     if (!isOpen && helpButtonRef?.current) {
-      document.body.offsetHeight;
-
-      setTimeout(() => {
+      requestAnimationFrame(() => {
         helpButtonRef.current?.focus();
-      }, 50);
+      });
     }
   }, [isOpen, helpButtonRef]);
-
-
+  
   return (
     <Modal isOpen={isOpen} closeModal={onClose}>
       <HelpContent role="dialog">
