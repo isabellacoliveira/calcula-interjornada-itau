@@ -109,9 +109,14 @@ export default function ZerarHoras() {
     setIsHelpModalOpen(true);
   }
 
+  // Forçar o foco no botão de ajuda quando o modal é fechado
   useEffect(() => {
     if (!isHelpModalOpen && helpButtonRef.current) {
+      // Colocando o tabindex como -1 para garantir que seja focável
+      helpButtonRef.current.tabIndex = -1;
       helpButtonRef.current.focus();
+      // Restaurar o tabindex para evitar problemas de acessibilidade
+      helpButtonRef.current.tabIndex = 0;
     }
   }, [isHelpModalOpen]);
 
