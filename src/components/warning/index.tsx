@@ -1,4 +1,4 @@
-import Modal from '../modal-reuso'; // Certifique-se de ter o tipo correto para as propriedades do Modal
+import Modal from '../modal-reuso'; 
 import { HelpContent } from './styles';
 
 type WarningProps = {
@@ -8,9 +8,9 @@ type WarningProps = {
 
 export default function Warning({ isOpen, onClose }: WarningProps) {
   return (
-    <Modal isOpen={isOpen} closeModal={onClose}>
+    <Modal isOpen={isOpen} closeModal={onClose} role="dialog" aria-labelledby="warningTitle" aria-modal="true">
       <HelpContent>
-        <h2>Cuidado!</h2>
+        <h2 id="warningTitle">Cuidado!</h2>
         <div>
           <p>
             Você excedeu o limite máximo de horas que uma pessoa pode fazer ao dia...
@@ -26,5 +26,3 @@ export default function Warning({ isOpen, onClose }: WarningProps) {
     </Modal>
   );
 }
-
-<h2></h2>

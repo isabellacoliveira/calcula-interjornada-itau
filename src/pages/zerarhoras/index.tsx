@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import InputMask from 'react-input-mask';
 import {
@@ -75,6 +75,7 @@ export default function ZerarHoras() {
   const [isWarningModalOpen, setIsWarningModalOpen] = useState(false);
   const [isHelpModalOpen, setIsHelpModalOpen] = useState(false);
   const [passoDoFormulario, setPassoDoFormulario] = useState(1);
+  const helpButtonRef = useRef<HTMLButtonElement>(null);
   const navigate = useNavigate();
 
   const handleCalculate = () => {
@@ -106,6 +107,9 @@ export default function ZerarHoras() {
 
   function openModal() {
     setIsHelpModalOpen(true);
+    if (helpButtonRef.current) {
+      helpButtonRef.current.focus();
+    }
   }
 
   const handleHoursChange = (setter: React.Dispatch<React.SetStateAction<string>>) => (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -185,10 +189,10 @@ export default function ZerarHoras() {
 
             {passoDoFormulario === 1 && (
               <>
-                <Titulo aria-level={1}>Gestão de Horas</Titulo>
+                <Titulo role="heading" aria-level={1}>Gestão de Horas</Titulo>
                 <HourBank role="form" aria-label="Formulário para inserir horas extras">
                   <ContentInput>
-                    <LabelInput>Horas extras (horas):</LabelInput>
+                    <LabelInput aria-level={2}>Horas extras (horas):</LabelInput>
                     <Time
                       id="bankHours"
                       type="text"
@@ -201,7 +205,7 @@ export default function ZerarHoras() {
                     />
                   </ContentInput>
                   <ContentInput>
-                    <LabelInput>Horas extras (minutos):</LabelInput>
+                    <LabelInput aria-level={2}>Horas extras (minutos):</LabelInput>
                     <Time
                       id="bankMinutes"
                       type="text"
@@ -227,10 +231,10 @@ export default function ZerarHoras() {
 
             {passoDoFormulario === 2 && (
               <>
-                <Titulo>Tempo de Almoço</Titulo>
+                <Titulo role="heading" aria-level={1}>Tempo de Almoço</Titulo>
                 <HourBank>
                   <ContentInput>
-                    <LabelInput>Horas</LabelInput>
+                    <LabelInput aria-level={2}>Horas</LabelInput>
                     <Time
                       id="lunchHours"
                       type="text"
@@ -243,7 +247,7 @@ export default function ZerarHoras() {
                     />
                   </ContentInput>
                   <ContentInput>
-                    <LabelInput>Minutos:</LabelInput>
+                    <LabelInput aria-level={2}>Minutos:</LabelInput>
                     <Time
                       id="lunchMinutes"
                       type="text"
@@ -269,10 +273,10 @@ export default function ZerarHoras() {
 
             {passoDoFormulario === 3 && (
               <>
-                <Titulo>Por favor, insira seu horário de entrada</Titulo>
+                <Titulo role="heading" aria-level={1}>Por favor, insira seu horário de entrada</Titulo>
                 <HourBank>
                   <ContentInput>
-                    <LabelInput>Horário de entrada:</LabelInput>
+                    <LabelInput aria-level={2}>Horário de entrada:</LabelInput>
                     <Time
                       id="entryTime"
                       type="time"
@@ -287,6 +291,8 @@ export default function ZerarHoras() {
                     aria-label="Calcular horário de saída"
                   >
                     calcular
+
+                    
                   </Calcular>
                 </HourBank>
               </>
@@ -297,12 +303,20 @@ export default function ZerarHoras() {
               <div role="region" aria-label="Resultados do cálculo de horas">
                 <p>Horas de trabalho necessárias hoje: {result.workHoursToday}</p>
                 <p>Hora de saída: {result.exitTime}</p>
-              </div>
+              </div>              
             )}
 
             <BotaoLimpar>
               <Calcular onClick={() => limparForm()} aria-label="Limpar formulário" role="button">Limpar formulário</Calcular>
             </BotaoLimpar>
+
+            <div>
+              <p role="text">
+                Teste de 
+                <a href="https://etecperuibe.cps.sp.gov.br/" target='blank' role="link">LINK</a>
+                olá
+              </p>
+            </div>
           </Content>
         </Header>
       </Container>
