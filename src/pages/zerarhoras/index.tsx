@@ -188,7 +188,7 @@ export default function ZerarHoras() {
 
         <Header>
           <Content>
-            {!isWarningModalOpen && !isHelpModalOpen && 
+            {!isWarningModalOpen && !isHelpModalOpen &&
               <Imagem aria-label="Logo do Itaú Unibanco" aria-hidden="true" />
             }
 
@@ -297,7 +297,7 @@ export default function ZerarHoras() {
                   >
                     calcular
 
-                    
+
                   </Calcular>
                 </HourBank>
               </>
@@ -308,7 +308,7 @@ export default function ZerarHoras() {
               <div role="region" aria-label="Resultados do cálculo de horas">
                 <p>Horas de trabalho necessárias hoje: {result.workHoursToday}</p>
                 <p>Hora de saída: {result.exitTime}</p>
-              </div>              
+              </div>
             )}
 
             <BotaoLimpar>
@@ -316,9 +316,13 @@ export default function ZerarHoras() {
             </BotaoLimpar>
 
             <div>
-              <p role="text" aria-level={3}>
-                Teste de 
-                <a href="https://etecperuibe.cps.sp.gov.br/" target='blank' role="link">clicar</a>
+              <p role="text" aria-level={3} style={{ display: 'inline' }}>
+                Teste de
+              </p>
+              <a href="https://etecperuibe.cps.sp.gov.br/" target="_blank" style={{ display: 'inline' }}>
+                clicar
+              </a>
+              <p role="text" style={{ display: 'inline' }}>
                 olá
               </p>
             </div>
