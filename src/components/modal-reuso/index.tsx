@@ -13,9 +13,9 @@ const Modal = ({ isOpen, closeModal, children }: any) => {
         modalRef.current.focus();
       }
     } else {
-      if (previouslyFocusedElement.current) {
-        previouslyFocusedElement.current.focus();
-      }
+      setTimeout(() => {
+        previouslyFocusedElement.current?.focus();
+      }, 100);
     }
   }, [isOpen]);
 

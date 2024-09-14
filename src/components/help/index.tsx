@@ -13,7 +13,7 @@ export default function Help({ isOpen, onClose, helpButtonRef }: HelpProps) {
     if (!isOpen && helpButtonRef?.current) {
       setTimeout(() => {
         helpButtonRef.current?.focus();
-      }, 50); 
+      }, 100); 
     }
   }, [isOpen, helpButtonRef]);
 
