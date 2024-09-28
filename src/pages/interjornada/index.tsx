@@ -45,7 +45,6 @@ export default function Interjornada() {
             if (horarioRetorno.getHours() < 7) {
                 setMensagem('Você só pode começar a trabalhar após as 7h.');
                 horarioRetorno.setHours(7, 0, 0, 0);
-                setCanWork(false);
             } else {
                 setMensagem('Você já pode começar a trabalhar agora.');
                 setCanWork(true);
