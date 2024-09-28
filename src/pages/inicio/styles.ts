@@ -10,6 +10,13 @@ export const Content = styled.div`
     background-color: #132e63;
 `
 
+export const Titulos = styled.p`
+  color: #fff; 
+  text-align: center; 
+  font-size: 18px; 
+  font-weight: bold;
+`
+
 export const ButtonSend = styled.button`
     margin-top: 20px;
     font-weight: bold;
