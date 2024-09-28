@@ -10,7 +10,7 @@ export const Container = styled.div`
 export const Content = styled.header`
     overflow-y: auto;
 `
-export const Header = styled.div<{ $warroommode: boolean }>` 
+export const Header = styled.div<{ $showWarRoomBackground: boolean }>` 
   flex: 1;
   background-color: #132e63;
   display: flex;
@@ -21,7 +21,7 @@ export const Header = styled.div<{ $warroommode: boolean }>`
   color: white;
   padding-bottom: 30px;
 
-  ${({ $warroommode }) => $warroommode && `
+  ${({ $showWarRoomBackground }) => $showWarRoomBackground && `
     background-image: url(${Fire});
     background-size: cover;
     background-position: center;

@@ -16,7 +16,6 @@ export default function Interjornada() {
         <>        
             <Content>
                 <Imagem />
-                
                 <ButtonSend onClick={() => navigate('/interjornada')}>calcular interjornada</ButtonSend>
                 <ButtonSend onClick={() => navigate('/zerar-banco')}>zerar banco de horas</ButtonSend>
             </Content>

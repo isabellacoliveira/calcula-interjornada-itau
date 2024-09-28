@@ -15,9 +15,10 @@ export default function Interjornada() {
     const [showModal, setShowModal] = useState(false);
     const [canWork, setCanWork] = useState<boolean>(true);
     const [modalFocus, setModalFocus] = useState<boolean>(false);
-    const [isHelpModalOpen, setIsHelpModalOpen] = useState(false);
     const [dataFromChild, setDataFromChild] = useState('');
-    const [warroommode, setwarroommode] = useState(false);
+    const [showWarRoomMode, setshowWarRoomMode] = useState(false);
+    const [fazerCalculoNoFinalDeSemana, setFazerCalculoNoFinalDeSemana] = useState(false);
+    const [showWarRoomBackground, setshowWarRoomBackground] = useState(false);
     const navigate = useNavigate();
     const inputRef = useRef<HTMLInputElement>(null);
     const horarioSaidaDate = new Date();
@@ -25,14 +26,27 @@ export default function Interjornada() {
     const diaSemana = horarioRetorno.getDay();
 
     const verificaDiaDaSemanaESePodeTrabalhar = (horarioSaida: string) => {
-        if (diaSemana === 6 || diaSemana === 0) {
-            sessionStorage.setItem('dia da semana', diaSemana.toString())
-            setMensagem('Você não pode logar no final de semana');
-            setCanWork(false);
+        if (!fazerCalculoNoFinalDeSemana) {
+            if (diaSemana === 6 || diaSemana === 0) {
+                setEstadoFinalDeSemana(); 
+            } else {
+                calcularProximoHorarioESetarODiaDaSemanaNaSession(horarioSaida);
+            }
         } else {
-            sessionStorage.setItem('dia da semana', diaSemana.toString())
-            calcularProximoHorario(horarioSaida);
+            calcularProximoHorarioESetarODiaDaSemanaNaSession(horarioSaida);
         }
+    }
+
+    const setEstadoFinalDeSemana = () => {
+        setshowWarRoomMode(true);
+        sessionStorage.setItem('dia da semana', diaSemana.toString())
+        setMensagem('Você não pode logar no final de semana');
+        setCanWork(false);
+    }
+
+    const calcularProximoHorarioESetarODiaDaSemanaNaSession = (horarioSaida: string) => {
+        sessionStorage.setItem('dia da semana', diaSemana.toString())
+        calcularProximoHorario(horarioSaida);
     }
 
     const calcularProximoHorario = (horarioSaida: string) => {
@@ -99,25 +113,23 @@ export default function Interjornada() {
         toast.success('Email enviado com sucesso!');
     };
 
-    function openModal() {
-        setIsHelpModalOpen(true);
-    }
-
-    function warRoomOff() {
+    const warRoomOff = (data: any) => {
+        setDataFromChild(data)
         setCanWork(false);
-        setwarroommode(false);
+        setshowWarRoomMode(true);
+        setshowWarRoomBackground(false);
+        setFazerCalculoNoFinalDeSemana(false);
     }
 
     const warRoomSure = (data: any) => {
         setDataFromChild(data)
-
-        if (data === true) setCanWork(true);
-        setIsHelpModalOpen(false);
-        setwarroommode(true);
+        setCanWork(true);
+        setshowWarRoomBackground(true);
+        setFazerCalculoNoFinalDeSemana(true);
     }
 
     const limparHorario = () => {
-        setSaida(""); 
+        setSaida("");
         setProximoHorario("")
         sessionStorage.clear();
     }
@@ -129,7 +141,7 @@ export default function Interjornada() {
                     voltar
                 </ButtonBack>
             </ContentButton>
-            <Header $warroommode={warroommode}>
+            <Header $showWarRoomBackground={showWarRoomBackground}>
                 <Content>
                     <Imagem />
                     {canWork ? <div>
@@ -167,7 +179,11 @@ export default function Interjornada() {
                     </div> : <p>Você não pode trabalhar no final de semana. Priorize seu tempo de descanso.</p>}
 
                 </Content>
-
+                {(diaSemana === 5 || diaSemana === 6 || diaSemana === 0) && showWarRoomMode && (
+                    <WarRoomButton  onClick={showWarRoomBackground ? warRoomOff : warRoomSure}>
+                        {showWarRoomBackground ? 'Fim do WR' : 'WR'}
+                    </WarRoomButton>
+                )}
                 <Modal
                     show={showModal}
                     onClose={handleCloseModal}
