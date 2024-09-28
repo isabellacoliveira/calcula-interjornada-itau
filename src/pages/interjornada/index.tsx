@@ -17,58 +17,62 @@ export default function Interjornada() {
     const [modalFocus, setModalFocus] = useState<boolean>(false);
     const [isHelpModalOpen, setIsHelpModalOpen] = useState(false);
     const [dataFromChild, setDataFromChild] = useState('');
-    const [diaDaSemana, setDiaDaSemana] = useState<number>();
     const [warroommode, setwarroommode] = useState(false);
     const navigate = useNavigate();
     const inputRef = useRef<HTMLInputElement>(null);
+    const horarioSaidaDate = new Date();
+    const horarioRetorno = new Date(horarioSaidaDate.getTime() + 11 * 60 * 60 * 1000);
+    const diaSemana = horarioRetorno.getDay();
+
+    const verificaDiaDaSemanaESePodeTrabalhar = (horarioSaida: string) => {
+        if (diaSemana === 6 || diaSemana === 0) {
+            sessionStorage.setItem('dia da semana', diaSemana.toString())
+            setMensagem('Você não pode logar no final de semana');
+            setCanWork(false);
+        } else {
+            sessionStorage.setItem('dia da semana', diaSemana.toString())
+            calcularProximoHorario(horarioSaida);
+        }
+    }
 
     const calcularProximoHorario = (horarioSaida: string) => {
         if (horarioSaida) {
             const [hora, minuto] = horarioSaida.split(':').map(Number);
-            const horarioSaidaDate = new Date();
             horarioSaidaDate.setHours(hora, minuto, 0, 0);
 
             const horarioRetorno = new Date(horarioSaidaDate.getTime() + 11 * 60 * 60 * 1000);
-            const diaSemana = horarioRetorno.getDay();
-            setDiaDaSemana(diaSemana);
 
-            // if (diaSemana === 6 || diaSemana === 0) {
-            //     setMensagem('Você não pode logar no final de semana');
-            //     setCanWork(false);
-            // } else {
-                if (horarioRetorno.getHours() < 7) {
-                    setMensagem('Você só pode começar a trabalhar após as 7h.');
-                    horarioRetorno.setHours(7, 0, 0, 0);
-                    setCanWork(false);
-                } else {
-                    setMensagem('Você já pode começar a trabalhar agora.');
+            if (horarioRetorno.getHours() < 7) {
+                setMensagem('Você só pode começar a trabalhar após as 7h.');
+                horarioRetorno.setHours(7, 0, 0, 0);
+                setCanWork(false);
+            } else {
+                setMensagem('Você já pode começar a trabalhar agora.');
+                setCanWork(true);
+            }
+
+            setProximoHorario(horarioRetorno.toLocaleTimeString());
+
+            const tempoRestante = horarioRetorno.getTime() - new Date().getTime();
+            if (tempoRestante > 0) {
+                setTimeout(() => {
+                    console.log('Você pode começar a trabalhar agora.');
                     setCanWork(true);
-                }
-
-                setProximoHorario(horarioRetorno.toLocaleTimeString());
-                console.log('Próximo horário de trabalho:', horarioRetorno.toLocaleTimeString());
-
-                const tempoRestante = horarioRetorno.getTime() - new Date().getTime();
-                if (tempoRestante > 0) {
-                    setTimeout(() => {
-                        console.log('Você pode começar a trabalhar agora.');
-                        setCanWork(true);
-                    }, tempoRestante);
-                } else {
-                    console.log("Você já pode começar a trabalhar.");
-                    setCanWork(true);
-                }
-            // }
+                }, tempoRestante);
+            } else {
+                console.log("Você já pode começar a trabalhar.");
+                setCanWork(true);
+            }
         }
     };
 
     useEffect(() => {
-        calcularProximoHorario(saida);
+        verificaDiaDaSemanaESePodeTrabalhar(saida)
     }, [saida]);
 
     useEffect(() => {
         if (saida) {
-            calcularProximoHorario(saida);
+            verificaDiaDaSemanaESePodeTrabalhar(saida);
         }
     }, []);
 
@@ -113,6 +117,12 @@ export default function Interjornada() {
         setwarroommode(true);
     }
 
+    const limparHorario = () => {
+        setSaida(""); 
+        setProximoHorario("")
+        sessionStorage.clear();
+    }
+
     return (
         <Container>
             <ContentButton>
@@ -123,31 +133,40 @@ export default function Interjornada() {
             <Header $warroommode={warroommode}>
                 <Content>
                     <Imagem />
-                    <h4>Bem-vindo(a) ao Calcula-Interjornada!</h4>
-                    <p>Por favor, insira seu horário de saída:</p>
-                    <Actions>
-                        <Time
-                            className="time"
-                            type="time"
-                            value={saida}
-                            onChange={(e) => {
-                                console.log("Novo horário de saída:", e.target.value);
-                                setSaida(e.target.value);
-                            }}
-                            ref={inputRef}
-                        />
-                        <ButtonSend
-                            className="button-send"
-                            onClick={handleOpenModal}
-                        >
-                            enviar para o e-mail
-                        </ButtonSend>
-                    </Actions>
-                    {proximoHorario ? (
-                        <p key={proximoHorario}>Você poderá trabalhar novamente às {proximoHorario}</p>
-                    ) : (
-                        <p>Horário de trabalho não definido.</p>
-                    )}
+                    {canWork ? <div>
+                        <h4>Bem-vindo(a) ao Calcula-Interjornada!</h4>
+                        <p>Por favor, insira seu horário de saída:</p>
+                        <Actions>
+                            <Time
+                                className="time"
+                                type="time"
+                                value={saida}
+                                onChange={(e) => {
+                                    console.log("Novo horário de saída:", e.target.value);
+                                    setSaida(e.target.value);
+                                }}
+                                ref={inputRef}
+                            />
+                            <ButtonSend
+                                className="button-send"
+                                onClick={handleOpenModal}
+                            >
+                                enviar para o e-mail
+                            </ButtonSend>
+                            <ButtonSend
+                                className="button-send"
+                                onClick={limparHorario}
+                            >
+                                limpar
+                            </ButtonSend>
+                        </Actions>
+                        {proximoHorario ? (
+                            <p key={proximoHorario}>Você poderá trabalhar novamente às {proximoHorario}</p>
+                        ) : (
+                            <p>Horário de trabalho não definido.</p>
+                        )}
+                    </div> : <p>Você não pode trabalhar no final de semana. Priorize seu tempo de descanso.</p>}
+
                 </Content>
 
                 <Modal
