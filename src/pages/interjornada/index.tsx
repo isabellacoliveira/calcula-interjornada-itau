@@ -22,44 +22,20 @@ export default function Interjornada() {
     const navigate = useNavigate();
     const inputRef = useRef<HTMLInputElement>(null);
 
-    useEffect(() => {
-        if (saida) {    
-            const [hora, minuto] = saida.split(':').map(Number);
-            const horarioSaida = new Date();
-            horarioSaida.setHours(hora, minuto, 0, 0);
-    
-            const horarioRetorno = new Date(horarioSaida.getTime() + 11 * 60 * 60 * 1000);
-            const diaSemana = horarioRetorno.getDay();
-            setDiaDaSemana(horarioRetorno.getDay());
-    
-            if (diaSemana === 6 || diaSemana === 0) {
-                setMensagem('Você não pode logar no final de semana');
-                setCanWork(false);
+    const calcularProximoHorario = (horarioSaida: string) => {
+        if (horarioSaida) {
+            const [hora, minuto] = horarioSaida.split(':').map(Number);
+            const horarioSaidaDate = new Date();
+            horarioSaidaDate.setHours(hora, minuto, 0, 0);
 
-                // if(warroommode){
-                //     if (horarioRetorno.getHours() < 7) {
-                //         setMensagem('Você só pode começar a trabalhar após as 7h.');
-                //         horarioRetorno.setHours(7, 0, 0, 0);
-                //         setCanWork(false);
-                //     } else {
-                //         setMensagem('Você já pode começar a trabalhar agora.');
-                //         setCanWork(true);
-                //     }
-        
-                //     setProximoHorario(horarioRetorno.toLocaleTimeString());
-        
-                //     const tempoRestante = horarioRetorno.getTime() - new Date().getTime();
-        
-                //     if (tempoRestante > 0) {
-                //         setTimeout(() => {
-                //             console.log('Você pode começar a trabalhar agora.');
-                //             setCanWork(true);
-                //         }, tempoRestante);
-                //     } else {
-                //         console.log("Você já pode começar a trabalhar.");
-                //     }
-                // }
-            } else {
+            const horarioRetorno = new Date(horarioSaidaDate.getTime() + 11 * 60 * 60 * 1000);
+            const diaSemana = horarioRetorno.getDay();
+            setDiaDaSemana(diaSemana);
+
+            // if (diaSemana === 6 || diaSemana === 0) {
+            //     setMensagem('Você não pode logar no final de semana');
+            //     setCanWork(false);
+            // } else {
                 if (horarioRetorno.getHours() < 7) {
                     setMensagem('Você só pode começar a trabalhar após as 7h.');
                     horarioRetorno.setHours(7, 0, 0, 0);
@@ -68,11 +44,11 @@ export default function Interjornada() {
                     setMensagem('Você já pode começar a trabalhar agora.');
                     setCanWork(true);
                 }
-    
+
                 setProximoHorario(horarioRetorno.toLocaleTimeString());
-    
+                console.log('Próximo horário de trabalho:', horarioRetorno.toLocaleTimeString());
+
                 const tempoRestante = horarioRetorno.getTime() - new Date().getTime();
-    
                 if (tempoRestante > 0) {
                     setTimeout(() => {
                         console.log('Você pode começar a trabalhar agora.');
@@ -80,11 +56,22 @@ export default function Interjornada() {
                     }, tempoRestante);
                 } else {
                     console.log("Você já pode começar a trabalhar.");
+                    setCanWork(true);
                 }
-            }
+            // }
         }
-    }, [saida, warroommode]); 
-    
+    };
+
+    useEffect(() => {
+        calcularProximoHorario(saida);
+    }, [saida]);
+
+    useEffect(() => {
+        if (saida) {
+            calcularProximoHorario(saida);
+        }
+    }, []);
+
     const handleOpenModal = () => {
         setShowModal(true);
         setModalFocus(true);
@@ -136,28 +123,31 @@ export default function Interjornada() {
             <Header $warroommode={warroommode}>
                 <Content>
                     <Imagem />
-                    {/* {canWork ? <> */}
-                        <h4>Bem-vindo(a) ao Calcula-Interjornada!</h4>
-                        <p>Por favor, insira seu horário de saída:</p>
-                        <Actions>
-                            <Time
-                                className="time"
-                                type="time"
-                                value={saida}
-                                onChange={(e) => setSaida(e.target.value)}
-                                ref={inputRef}
-                            />
-                            <ButtonSend
-                                className="button-send"
-                                onClick={handleOpenModal}
-                            >
-                                enviar para o e-mail
-                            </ButtonSend>
-                        </Actions>
-                        {proximoHorario && (
-                            <p>Você poderá trabalhar novamente às {proximoHorario}</p>
-                        )}
-                    {/* </> : <p>Você não pode trabalhar no final de semana! Priorize seu tempo de descanso.</p>} */}
+                    <h4>Bem-vindo(a) ao Calcula-Interjornada!</h4>
+                    <p>Por favor, insira seu horário de saída:</p>
+                    <Actions>
+                        <Time
+                            className="time"
+                            type="time"
+                            value={saida}
+                            onChange={(e) => {
+                                console.log("Novo horário de saída:", e.target.value);
+                                setSaida(e.target.value);
+                            }}
+                            ref={inputRef}
+                        />
+                        <ButtonSend
+                            className="button-send"
+                            onClick={handleOpenModal}
+                        >
+                            enviar para o e-mail
+                        </ButtonSend>
+                    </Actions>
+                    {proximoHorario ? (
+                        <p key={proximoHorario}>Você poderá trabalhar novamente às {proximoHorario}</p>
+                    ) : (
+                        <p>Horário de trabalho não definido.</p>
+                    )}
                 </Content>
 
                 <Modal
@@ -165,23 +155,9 @@ export default function Interjornada() {
                     onClose={handleCloseModal}
                     onEmailSubmit={handleEmailSubmit}
                 />
-                <Toaster
-                    position="top-center"
-                    reverseOrder={false}
-                />
+                <Toaster position="top-center" reverseOrder={false} />
             </Header>
-            {/* {diaDaSemana === 6 || diaDaSemana === 0 ? <WarRoomButton className="help-button" onClick={openModal}>
-                War Room
-            </WarRoomButton> : ""}
-            {warroommode ? <WarRoomButton className="help-button" onClick={warRoomOff}>
-                Fim do WR
-            </WarRoomButton> : ""} */}
-            {/* <WarRoom
-                isOpen={isHelpModalOpen}
-                onClose={() => setIsHelpModalOpen(false)}
-                setCanWork={warRoomSure}
-            /> */}
             <Footer />
         </Container>
-    )
+    );
 }
