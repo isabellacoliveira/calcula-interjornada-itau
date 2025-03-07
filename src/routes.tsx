@@ -5,10 +5,12 @@ import Inicio from "./pages/inicio";
 import ZerarHoras from "./pages/zerarhoras";
 import HourInput from "./pages/zerarhoras";
 import CalcularSaida from "./pages/calcularSaida";
+import { PasswordProvider } from "./contexts/PasswordContext";
 
 function AppRoutes() {
     return (
         <>
+        <PasswordProvider>
             <Router>
                 <Routes>
                     <Route path="/" element={<Inicio />} />
@@ -18,6 +20,7 @@ function AppRoutes() {
                     <Route path="/*" element={<Inicio />} />
                 </Routes>
             </Router>
+        </PasswordProvider>
         </>
     );
 }

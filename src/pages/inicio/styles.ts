@@ -40,3 +40,41 @@ export const ButtonSend = styled.button`
       transform: translateY(-10px);
     }
 `
+
+export const Password = styled.input`
+   margin-bottom: 15px;
+    padding: 20px 10px 20px 20px;
+    border-radius: 10px;
+    transition: transform 0.6s ease;
+    background-color: #EC7000;
+    max-width: 100%; 
+    outline: none; 
+    cursor: pointer;
+    border: none;
+    color: #fff;
+
+    
+    @media (max-width: 600px) {
+      max-width: 100%;  
+   }
+`
+
+export const PasswordHiddenButton = styled.button`
+   margin-bottom: 15px;
+    padding: 20px 10px 20px 20px;
+    border-radius: 10px;
+    transition: transform 0.6s ease;
+    background-color: #EC7000;
+    max-width: 100%; 
+    outline: none; 
+    cursor: pointer;
+    border: none;
+    color: #fff;
+
+    
+    @media (max-width: 600px) {
+      max-width: 100%;  
+   }
+`
+
+

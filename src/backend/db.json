@@ -1,0 +1,124 @@
+{
+    "carros": [
+        {
+            "id": 1,
+            "nomeCarro": "Fiat Pulse",
+            "detalhe": "Pulse 1.3 Drive (Aut) automático", 
+            "ehFavorito": true, 
+            "preco": "96.390,00",
+            "linkLoja": "https://seminovos.localiza.com/carros/fiat/pulse",
+            "localVenda": "São Paulo, SP", 
+            "ano": "2023/2024",
+            "kmsRodados": "43.725",
+            "fotoCarro": "https://http2.mlstatic.com/D_NQ_NP_714373-MLA80445718417_112024-B.webp"
+        },
+        {
+            "id": 2,
+            "nomeCarro": "Chevrolet Onix",
+            "detalhe": "Onix 1.0 Turbo LT (Aut) automático", 
+            "ehFavorito": false, 
+            "preco": "88.500,00",
+            "linkLoja": "https://seminovos.localiza.com/carros/chevrolet/onix",
+            "localVenda": "Belo Horizonte, MG", 
+            "ano": "2022/2023",
+            "kmsRodados": "35.120",
+            "fotoCarro": ""
+        },
+        {
+            "id": 3,
+            "nomeCarro": "Volkswagen T-Cross",
+            "detalhe": "T-Cross 1.4 TSI Highline (Aut) automático", 
+            "ehFavorito": true, 
+            "preco": "123.900,00",
+            "linkLoja": "https://seminovos.localiza.com/carros/volkswagen/t-cross",
+            "localVenda": "Rio de Janeiro, RJ", 
+            "ano": "2021/2022",
+            "kmsRodados": "50.650",
+            "fotoCarro": ""
+        },
+        {
+            "id": 4,
+            "nomeCarro": "Toyota Corolla",
+            "detalhe": "Corolla 2.0 Altis Premium (Aut) automático", 
+            "ehFavorito": false, 
+            "preco": "150.800,00",
+            "linkLoja": "https://seminovos.localiza.com/carros/toyota/corolla",
+            "localVenda": "Curitiba, PR", 
+            "ano": "2020/2021",
+            "kmsRodados": "65.320",
+            "fotoCarro": ""
+        },
+        {
+            "id": 5,
+            "nomeCarro": "Renault Kwid",
+            "detalhe": "Kwid 1.0 Zen (MT) manual", 
+            "ehFavorito": true, 
+            "preco": "64.900,00",
+            "linkLoja": "https://seminovos.localiza.com/carros/renault/kwid",
+            "localVenda": "Porto Alegre, RS", 
+            "ano": "2023/2024",
+            "kmsRodados": "10.500",
+            "fotoCarro": ""
+        },
+        {
+            "id": 6,
+            "nomeCarro": "Honda HR-V",
+            "detalhe": "HR-V 1.5 Touring (Aut) automático", 
+            "ehFavorito": false, 
+            "preco": "159.800,00",
+            "linkLoja": "https://seminovos.localiza.com/carros/honda/hr-v",
+            "localVenda": "Florianópolis, SC", 
+            "ano": "2022/2023",
+            "kmsRodados": "22.300",
+            "fotoCarro": ""
+        },
+        {
+            "id": 7,
+            "nomeCarro": "Ford EcoSport",
+            "detalhe": "EcoSport 1.5 Titanium (Aut) automático", 
+            "ehFavorito": true, 
+            "preco": "95.700,00",
+            "linkLoja": "https://seminovos.localiza.com/carros/ford/ecosport",
+            "localVenda": "Goiânia, GO", 
+            "ano": "2021/2022",
+            "kmsRodados": "48.900",
+            "fotoCarro": ""
+        },
+        {
+            "id": 8,
+            "nomeCarro": "Jeep Renegade",
+            "detalhe": "Renegade 1.3 T270 Longitude (Aut) automático", 
+            "ehFavorito": false, 
+            "preco": "134.900,00",
+            "linkLoja": "https://seminovos.localiza.com/carros/jeep/renegade",
+            "localVenda": "Salvador, BA", 
+            "ano": "2023/2024",
+            "kmsRodados": "15.200",
+            "fotoCarro": ""
+        },
+        {
+            "id": 9,
+            "nomeCarro": "Hyundai Creta",
+            "detalhe": "Creta 2.0 Ultimate (Aut) automático", 
+            "ehFavorito": true, 
+            "preco": "147.900,00",
+            "linkLoja": "https://seminovos.localiza.com/carros/hyundai/creta",
+            "localVenda": "Fortaleza, CE", 
+            "ano": "2022/2023",
+            "kmsRodados": "30.750",
+            "fotoCarro": ""
+        },
+        {
+            "id": 10,
+            "nomeCarro": "Nissan Kicks",
+            "detalhe": "Kicks 1.6 SV (Aut) automático", 
+            "ehFavorito": false, 
+            "preco": "112.400,00",
+            "linkLoja": "https://seminovos.localiza.com/carros/nissan/kicks",
+            "localVenda": "Manaus, AM", 
+            "ano": "2021/2022",
+            "kmsRodados": "42.890",
+            "fotoCarro": ""
+        }
+    ]
+}
